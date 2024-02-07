@@ -19,7 +19,7 @@ const Chat = () => {
         <View style={styles.userInfo}>
           <Image
             style={styles.userImage}
-            source={require('./assets/laptop.png')}
+            source={require('../assets/laptop.png')}
           />
           <Text style={styles.userName}>John Doe</Text>
         </View>
