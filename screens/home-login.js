@@ -3,7 +3,7 @@ import React from 'react';
 import { View, Text, Image, StyleSheet,TouchableOpacity } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
-
+//login-home page 
 const App = () => (
    
      <LinearGradient  colors={[ '#4D0A8E','#CE048C']}
