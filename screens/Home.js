@@ -8,7 +8,6 @@ import {
   Image,
   SafeAreaView,
   TouchableOpacity,
-  ImageBackground,
 } from "react-native";
 import { TextInput } from "react-native-paper";
 console.log("executed Home");
@@ -16,7 +15,7 @@ console.log("executed Home");
 const PRODUCTS = [
   {
     productImage: require("../assets/productImages/FB_IMG_1608891063790.jpg"),
-    productName: "Musteng 1970",
+    productName: "Fiat 500",
     currentPriceBid: "$50.000",
   },
   {
@@ -59,25 +58,36 @@ const Home = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={{ flex: 5 }}>
-        <View style={{ flexDirection: "row" }}>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "center",
+            marginTop: 20,
+          }}
+        >
           <TextInput
-            underlineColorAndroid="transparent"
             style={styles.search}
             placeholder="Search products"
-            inputMode="search"
+            inputMode="text"
           />
           <MaterialCommunityIcons
-            name="bell-circle"
-            color={"grey"}
-            size={40}
-            badgeCount={2}
+            name="bell"
+            color={"#CFCFCF"}
+            size={35}
             style={styles.materialIcon}
           />
         </View>
-        <View style={{ flex: 1 }}>
+        <View
+          style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
+        >
           <Image
             source={require("../assets/f036f0084a0a0722dbeaf8f121c5b276.jpg")}
-            style={{ width: "100%", height: "100%" }}
+            style={{
+              borderRadius: 20,
+              width: 380,
+              height: 150,
+            }}
           />
         </View>
       </View>
@@ -149,14 +159,17 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 25,
-    paddingLeft: 10,
+    backgroundColor: "#F7F6F4",
   },
   search: {
-    backgroundColor: "#E4E3E3",
+    backgroundColor: "#fff",
     width: 303,
     height: 46,
-    marginTop: 10,
+    left: -10,
     borderRadius: 10,
+  },
+  materialIcon: {
+    right: -10,
   },
   list: {
     flex: 4,
@@ -188,10 +201,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   textHeader: { padding: 10, fontSize: 20, fontWeight: "bold" },
-  materialIcon: {
-    marginLeft: 10,
-    marginTop: 15,
-  },
+
   image: {
     flex: 1,
     justifyContent: "center",

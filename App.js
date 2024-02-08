@@ -7,6 +7,7 @@ import Home from "./screens/Home";
 import Favorite from "./screens/Favorite";
 import Chat from "./screens/Chat";
 import Profile from "./screens/Profile";
+import AuctionRoom from "./screens/AuctionRoom";
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -16,6 +17,7 @@ export default function App() {
       <Tab.Navigator
         initialRouteName="Home"
         activeColor="#FF5500"
+        // activeColor="black"
         inactiveColor="#CFCFCF"
         barStyle={{ backgroundColor: "#FFFFFF" }}
         screenOptions={{ headerShown: false }}
@@ -48,6 +50,16 @@ export default function App() {
             tabBarLabel: "Chat",
             tabBarIcon: ({ color }) => (
               <MaterialCommunityIcons name="chat" color={color} size={26} />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="AuctionRoom"
+          component={AuctionRoom}
+          options={{
+            tabBarLabel: "Auction",
+            tabBarIcon: ({ color }) => (
+              <MaterialCommunityIcons name="gavel" color={color} size={26} />
             ),
           }}
         />
