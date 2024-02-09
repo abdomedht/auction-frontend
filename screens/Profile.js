@@ -1,11 +1,22 @@
-import React from "react";
-import { Text, View } from "react-native";
+import React from 'react';
+import ProfilePage from '../component/profile-c';
 
-const Profile = () => {
+const UserProfile = () => {
+  const user = {
+    name: 'John Doe',
+    phoneNumber: '123-456-7890',
+    email: 'john@example.com',
+    profileImage: require('../assets/laptop.png'),
+  };
+
   return (
-    <View>
-      <Text>Profile</Text>
-    </View>
+    <ProfilePage
+      name={user.name}
+      phoneNumber={user.phoneNumber}
+      email={user.email}
+      profileImage={user.profileImage}
+    />
   );
 };
-export default Profile;
+
+export default UserProfile;
