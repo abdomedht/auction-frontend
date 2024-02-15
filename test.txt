@@ -1,24 +1,75 @@
 
-          
-      
-    
-  
-  
-      
-      
-  <View style={styles.desContainer}>
-        <Text style={[styles.productName]}>Fiat 500</Text>
-        <Text
-          style={{
-            paddingHorizontal: 20,
-            paddingVertical: 10,
-          }}
-        >
-          A car produced by Fiat from 1957 to 1975. The car's designer was Dante
-          Giacosa. Introduced to the public as the Nuova 500 in July 1957, the
-          car was named after the popular pre-war Fiat 500 Topolino, and was
-          positioned as a cheap and practical car for the city. It was only 3
-          meters long and was equipped with a small 479 cc two-cylinder
-          air-cooled engine
-        </Text>
+      <Text style={styles.textHeader}>Bid now</Text>
+      <View style={styles.list}>
+        <FlatList
+          horizontal={true}
+          data={PRODUCTS}
+          keyExtractor={(item) => item.productName}
+          renderItem={({ item }) => (
+            <View style={[styles.boxHorizontal]}>
+              <Image
+                source={item.productImage}
+                style={styles.productImageList}
+              />
+              <Text style={{ fontSize: 12, paddingTop: 10 }}>
+                {item.productName}
+              </Text>
+              <View
+                style={{
+                  borderRadius: 30,
+                  width: 148,
+                  height: 30,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  marginTop: 10,
+                }}
+              >
+                <Text
+                  style={{
+                    paddingTop: 5,
+                    fontSize: 14,
+                    fontWeight: "bold",
+                  }}
+                >
+                  Highest bid: {item.currentPriceBid}
+                </Text>
+              </View>
+            </View>
+          )}
+        />
       </View>
+      <Text style={styles.textHeader}>More</Text>
+      <View>
+        <FlatList
+          data={BIDSNOW}
+          keyExtractor={(item) => item.productName}
+          renderItem={({ item }) => (
+            <View style={styles.bidNow}>
+              <TouchableOpacity onPress={handlePress}>
+                <MaterialCommunityIcons
+                  name={icon.name}
+                  color={icon.color}
+                  size={26}
+                  style={{ paddingLeft: "70%" }}
+                />
+              </TouchableOpacity>
+              <Image
+                source={item.productImage}
+                style={{ flexGrow: 0, maxHeight: 73, maxWidth: 115 }}
+              />
+              <Text style={{ paddingTop: 10 }}>{item.productName}</Text>
+            </View>
+          )}
+          numColumns={2}
+        />
+      </View>
+
+
+
+      /// const [icon, setIcon] = useState({ name: "heart-outline", color: "grey" });
+  const handlePress = () => {
+    setIcon((prevProps) => ({
+      name: prevProps.name === "heart-outline" ? "heart" : "heart-outline",
+      color: prevProps.color === "grey" ? "red" : "grey",
+    }));
+  };
