@@ -5,21 +5,17 @@ import BiderBox from "../components/BiderBox";
 import ProductImages from "../components/ProductImages";
 import ProductDesc from "../components/ProductDesc";
 
-const AuctionRoom = () => {
+const AuctionRoom = ({ route }) => {
+  const data = route.params;
+  console.log(data);
   return (
     <SafeAreaView style={styles.container}>
-      <ProductImages />
-      <ProductDesc />
+      <ProductImages data={data} />
+      <ProductDesc data={data} />
       <BiderBox />
     </SafeAreaView>
   );
 };
-
-/* <Text style={[styles.text]}>Starts: 12Feb</Text> */
-
-/* <MaterialCommunityIcons name="date" color={grey} size={26} /> */
-
-/* <Text style={[styles.text]}>End Date : 13Feb,07:00 PM</Text> */
 
 const styles = StyleSheet.create({
   container: {

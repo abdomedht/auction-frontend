@@ -4,14 +4,14 @@ import { View, Text, StyleSheet, FlatList } from "react-native";
 const BIDERS = [
   {
     bider: "EL beloo",
-    bid: "5020",
+    bid: "10000",
   },
   {
     bider: "Sawy",
     bid: "6030",
   },
   {
-    bider: "labwa",
+    bider: "Asraf",
     bid: "6000",
   },
   {
@@ -29,7 +29,7 @@ const BIDERS = [
 ];
 BIDERS.sort((a, b) => b.bid - a.bid);
 
-console.log(BIDERS);
+// console.log(BIDERS);
 const BiderBox = () => {
   return (
     <FlatList

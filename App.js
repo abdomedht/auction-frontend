@@ -1,28 +1,30 @@
-// import "react-native-gesture-handler";
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import Home from "./screens/Home";
-import Favorite from "./screens/Favorite";
+import AddAuction from "./screens/AddAuction";
 import Chat from "./screens/Chat";
+import ChatList from "./screens/ChatList";
 import Profile from "./screens/Profile";
 import AuctionRoom from "./screens/AuctionRoom";
+import AuctionList from "./screens/AuctionList";
 import HomeLogin from "./screens/HomeLogin";
 import LoginForm from "./screens/LoginForm";
 import SignUpForm from "./screens/SignUpForm";
-
-const Tab = createBottomTabNavigator();
+const Tab = createMaterialBottomTabNavigator();
 
 function HomeTabs() {
   return (
     <Tab.Navigator
+      shifting={true}
       initialRouteName="Home"
-      barStyle={{ backgroundColor: "#FFFFFF", height: "10%" }}
+      activeColor="#FF5500"
+      inactiveColor="#cfcfcf"
+      barStyle={{ backgroundColor: "#FFFFFF", height: "8%" }}
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: "#FF5500",
       }}
     >
       {/*tabs after login */}
@@ -36,7 +38,7 @@ function HomeTabs() {
           ),
         }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Favorite"
         component={Favorite}
         options={{
@@ -45,10 +47,10 @@ function HomeTabs() {
             <MaterialCommunityIcons name="heart" color={color} size={26} />
           ),
         }}
-      />
+      /> */}
       <Tab.Screen
-        name="Chat"
-        component={Chat}
+        name="ChatList"
+        component={ChatList}
         options={{
           tabBarLabel: "",
           tabBarIcon: ({ color }) => (
@@ -57,8 +59,8 @@ function HomeTabs() {
         }}
       />
       <Tab.Screen
-        name="AuctionRoom"
-        component={AuctionRoom}
+        name="AuctionList"
+        component={AuctionList}
         options={{
           tabBarLabel: "",
           tabBarIcon: ({ color }) => (
@@ -103,6 +105,21 @@ export default function App() {
         <MainStack.Screen
           name="HomeTabs"
           component={HomeTabs}
+          options={{ headerShown: false }}
+        />
+        <MainStack.Screen
+          name="AuctionRoom"
+          component={AuctionRoom}
+          options={{ headerShown: false }}
+        />
+        <MainStack.Screen
+          name="Chat"
+          component={Chat}
+          options={{ headerShown: false }}
+        />
+        <MainStack.Screen
+          name="AddAuction"
+          component={AddAuction}
           options={{ headerShown: false }}
         />
       </MainStack.Navigator>

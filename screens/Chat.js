@@ -8,32 +8,27 @@ import {
   Image,
 } from "react-native";
 
-const Chat = () => {
+const Chat = ({ navigation, route }) => {
+  const contact = route.params;
+  console.log(contact);
   const [text, setText] = useState("");
   const onSend = (newMessages = []) => {
     // Handle sending messages
   };
-  const renderHeader = () => (
-    <View style={styles.header}>
-      <TouchableOpacity
-        style={styles.backButton}
-        onPress={() => console.log("Back button pressed")}
-      >
-        <Text style={styles.backButtonText}>{"< Back"}</Text>
-      </TouchableOpacity>
-      <View style={styles.userInfo}>
-        <Image
-          style={styles.userImage}
-          source={require("../assets/f036f0084a0a0722dbeaf8f121c5b276.jpg")}
-        />
-        <Text style={styles.userName}>John Doe</Text>
-      </View>
-    </View>
-  );
-
   return (
     <View style={styles.container}>
-      {renderHeader()}
+      <View style={styles.header}>
+        <TouchableOpacity
+          style={styles.backButton}
+          onPress={() => navigation.goBack()}
+        >
+          <Text style={styles.backButtonText}>{"< Back"}</Text>
+        </TouchableOpacity>
+        <View style={styles.userInfo}>
+          <Image style={styles.userImage} source={contact.image} />
+          <Text style={styles.userName}>{contact.name}</Text>
+        </View>
+      </View>
       <View style={styles.chatMs}>{/* Messages go here */}</View>
       <View style={styles.inputContainer}>
         <TextInput
