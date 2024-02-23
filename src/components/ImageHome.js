@@ -5,7 +5,7 @@ const ImageHome = () => {
   return (
     <View style={styles.container}>
       <Image
-        source={require("../assets/f036f0084a0a0722dbeaf8f121c5b276.jpg")}
+        source={require("../../assets/f036f0084a0a0722dbeaf8f121c5b276.jpg")}
         style={styles.image}
       />
     </View>

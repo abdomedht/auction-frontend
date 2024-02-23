@@ -20,7 +20,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#FF5500",
     borderRadius: 25,
     padding: 20,
-    // width: 200,
     margin: 10,
     alignSelf: "flex-end",
   },

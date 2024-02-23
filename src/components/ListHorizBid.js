@@ -7,7 +7,6 @@ import {
   Image,
   TouchableOpacity,
 } from "react-native";
-import BoxHorizBid from "./BoxHorizBid";
 
 const ListHorizBid = ({ PRODUCTS, handlePress }) => {
   return (
