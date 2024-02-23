@@ -1,7 +1,7 @@
 import React from "react";
 import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
 
-const ListAucBid = ({ openAuction, details }) => {
+const AuctionBox = ({ openAuction, details }) => {
   return (
     <TouchableOpacity onPress={openAuction}>
       <View style={styles.boxAuction}>
@@ -14,7 +14,6 @@ const ListAucBid = ({ openAuction, details }) => {
 
 const styles = StyleSheet.create({
   boxAuction: {
-    // backgroundColor: "#E6DDEF",
     padding: 20,
     borderRadius: 15,
     flexDirection: "row",
@@ -27,4 +26,4 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
 });
-export default ListAucBid;
+export default AuctionBox;
