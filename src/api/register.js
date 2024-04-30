@@ -13,10 +13,9 @@ const register = async (values) => {
         body: JSON.stringify(formData),
       }
     );
-    console.log(response.status);
     if (response.ok) {
       const data = await response.json();
-      Alert.alert("register Created Successfully", JSON.stringify(data));
+      console.log("register Created Successfully", JSON.stringify(data));
       return response;
     } else if (response.status === 400) {
       Alert.alert("register Failed", "Email already exists");
