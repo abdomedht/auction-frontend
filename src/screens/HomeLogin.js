@@ -13,7 +13,7 @@ const HomeLogin = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <ImageBackground
-        source={require("../../assets/productImages/Onboarding3.png")}
+        source={require("../assets/productImages/Onboarding3.png")}
         resizeMode="cover"
         style={styles.image}
       >

@@ -3,16 +3,16 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import Home from "./screens/Home";
-import AddAuction from "./screens/AddAuction";
-import Chat from "./screens/Chat";
-import ChatList from "./screens/ChatList";
-import Profile from "./screens/Profile";
-import AuctionRoom from "./screens/AuctionRoom";
-import AuctionList from "./screens/AuctionList";
-import HomeLogin from "./screens/HomeLogin";
-import LoginForm from "./screens/LoginForm";
-import SignUpForm from "./screens/SignUpForm";
+import Home from "./src/screens/Home";
+import AddAuction from "./src/screens/AddAuction";
+import Chat from "./src/screens/Chat";
+import ChatList from "./src/screens/ChatList";
+import Profile from "./src/screens/Profile";
+import AuctionRoom from "./src/screens/AuctionRoom";
+import AuctionList from "./src/screens/AuctionList";
+import HomeLogin from "./src/screens/HomeLogin";
+import LoginForm from "./src/screens/LoginForm";
+import SignUpForm from "./src/screens/SignUpForm";
 const Tab = createMaterialBottomTabNavigator();
 
 function HomeTabs() {

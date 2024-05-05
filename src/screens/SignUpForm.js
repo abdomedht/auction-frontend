@@ -1,31 +1,27 @@
-import React from "react";
-import {
-  TextInput,
-  View,
-  StyleSheet,
-  TouchableOpacity,
-  Text,
-  ScrollView,
-} from "react-native";
-import { Formik } from "formik";
-import * as yup from "yup";
-import register from "../api/register";
+import React from 'react';
+import { View, StyleSheet, TouchableOpacity, Text, ScrollView } from 'react-native';
+import { Formik } from 'formik';
+import * as yup from 'yup';
+import TextInputField from '../components/TextInputField-signUp';
+import ErrorText from '../components/ErrorText';
+import register from '../api/register';
+import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
 const validationSchema = yup.object().shape({
-  firstName: yup.string().required("required"),
-  lastName: yup.string().required("required"),
-  email: yup.string().email("Invalid email").required("required"),
+  firstName: yup.string().required('*required'),
+  lastName: yup.string().required('*required'),
+  email: yup.string().email('Invalid email').required('*required'),
   password: yup
     .string()
-    .min(6, "Password must be at least 6 characters")
-    .required("required"),
+    .min(6, 'Password must be at least 6 characters')
+    .required('Password is required'),
   confirmPassword: yup
     .string()
-    .oneOf([yup.ref("password"), null], "Passwords must match")
-    .required("Confirm Password is required"),
+    .oneOf([yup.ref('password'), null], 'Passwords must match')
+    .required('*required'),
   phone: yup
     .string()
-    .matches(/^[0-9]{11}$/, "Invalid phone number")
-    .required("required"),
+    .matches(/^[0-9]{11}$/, 'Invalid phone number')
+    .required('*required'),
 });
 
 const MySignUpForm = ({ navigation }) => {
@@ -33,105 +29,84 @@ const MySignUpForm = ({ navigation }) => {
     try {
       const res = await register(values);
 
-      if (res.ok) {
-        navigation.navigate("LoginForm");
+      if (res.status >= 200 && res.status < 300) {
+        navigation.navigate('LoginForm');
       }
     } catch (error) {
-      console.error("Registration failed:", error);
+      console.error('Registration failed:', error);
     }
   };
+
   return (
-    <ScrollView style={{ flex: 1, backgroundColor: "#F7F6F4" }}>
+    <ScrollView style={styles.scrollView}>
       <Formik
         initialValues={{
-          firstName: "",
-          lastName: "",
-          email: "",
-          password: "",
-          confirmPassword: "",
-          phone: "",
+          firstName: '',
+          lastName: '',
+          email: '',
+          password: '',
+          confirmPassword: '',
+          phone: '',
         }}
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
-        {({
-          handleChange,
-          handleBlur,
-          handleSubmit,
-          values,
-          errors,
-          touched,
-        }) => (
+        {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
           <View style={styles.container}>
-            {touched.firstName && errors.firstName && (
-              <Text style={styles.errorText}>{errors.firstName}</Text>
-            )}
-            <TextInput
-              style={styles.input}
+            <ErrorText text={touched.firstName && errors.firstName} />
+            <TextInputField
               placeholder="First Name"
-              onChangeText={handleChange("firstName")}
-              onBlur={handleBlur("firstName")}
+              onChangeText={handleChange('firstName')}
+              onBlur={handleBlur('firstName')}
               value={values.firstName}
             />
-            {touched.lastName && errors.lastName && (
-              <Text style={styles.errorText}>{errors.lastName}</Text>
-            )}
-            <TextInput
-              style={styles.input}
+            
+            <ErrorText text={touched.lastName && errors.lastName} />
+            <TextInputField
               placeholder="Last Name"
-              onChangeText={handleChange("lastName")}
-              onBlur={handleBlur("lastName")}
+              onChangeText={handleChange('lastName')}
+              onBlur={handleBlur('lastName')}
               value={values.lastName}
             />
-            {touched.email && errors.email && (
-              <Text style={styles.errorText}>{errors.email}</Text>
-            )}
-            <TextInput
-              style={styles.input}
+            
+            <ErrorText text={touched.email && errors.email} />
+            <TextInputField
               placeholder="Email"
-              onChangeText={handleChange("email")}
-              onBlur={handleBlur("email")}
+              onChangeText={handleChange('email')}
+              onBlur={handleBlur('email')}
               value={values.email}
               keyboardType="email-address"
             />
-            {touched.password && errors.password && (
-              <Text style={styles.errorText}>{errors.password}</Text>
-            )}
-            <TextInput
-              style={styles.input}
+            
+            <ErrorText text={touched.password && errors.password} />
+            <TextInputField
               placeholder="Password"
-              onChangeText={handleChange("password")}
-              onBlur={handleBlur("password")}
+              onChangeText={handleChange('password')}
+              onBlur={handleBlur('password')}
               value={values.password}
               secureTextEntry
             />
-            {touched.confirmPassword && errors.confirmPassword && (
-              <Text style={styles.errorText}>{errors.confirmPassword}</Text>
-            )}
-            <TextInput
-              style={styles.input}
+            
+            <ErrorText text={touched.confirmPassword && errors.confirmPassword} />
+            <TextInputField
               placeholder="Confirm Password"
-              onChangeText={handleChange("confirmPassword")}
-              onBlur={handleBlur("confirmPassword")}
+              onChangeText={handleChange('confirmPassword')}
+              onBlur={handleBlur('confirmPassword')}
               value={values.confirmPassword}
               secureTextEntry
             />
-            {touched.phone && errors.phone && (
-              <Text style={styles.errorText}>{errors.phone}</Text>
-            )}
-            <TextInput
-              style={styles.input}
+            
+            <ErrorText text={touched.phone && errors.phone} />
+            <TextInputField
               placeholder="Phone Number"
-              onChangeText={handleChange("phone")}
-              onBlur={handleBlur("phone")}
+              onChangeText={handleChange('phone')}
+              onBlur={handleBlur('phone')}
               value={values.phone}
               keyboardType="numeric"
             />
+            
             <TouchableOpacity
-              onPress={() => {
-                const { confirmPassword, ...formData } = values;
-                handleSubmit(formData);
-              }}
+              onPress={handleSubmit}
               style={styles.submitButton}
             >
               <Text style={styles.buttonText}>SIGN UP</Text>
@@ -142,44 +117,34 @@ const MySignUpForm = ({ navigation }) => {
     </ScrollView>
   );
 };
+
 const styles = StyleSheet.create({
-  container: {
-    padding: 20,
-    paddingTop: 150,
+  scrollView: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#F7F6F4",
+    backgroundColor: '#F7F6F4',
   },
-  input: {
-    width: 300,
-    height: 40,
-    borderColor: "#ccc",
-    borderWidth: 1,
-    marginBottom: 30,
-    padding: 10,
-    borderRadius: 10,
-    backgroundColor: "#FFF",
+  container: {
+    padding: moderateScale(20),
+    paddingTop: verticalScale(150),
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#F7F6F4',
   },
   submitButton: {
-    alignItems: "center",
-    width: 200,
-    height: 48,
-    borderRadius: 25,
-    backgroundColor: "#FF5500",
-    justifyContent: "center",
-    marginTop: 100,
+    alignItems: 'center',
+    width: scale(200),
+    height: verticalScale(48),
+    borderRadius: moderateScale(25),
+    backgroundColor: '#FF5500',
+    justifyContent: 'center',
+    marginTop: verticalScale(50),
   },
   buttonText: {
-    fontFamily: "Roboto",
-    fontSize: 14,
-    fontWeight: "600",
-    color: "#FFFFFF",
-  },
-  errorText: {
-    color: "red",
-    marginBottom: 5,
-    fontSize: 10,
+    fontFamily: 'Roboto',
+    fontSize: moderateScale(14),
+    fontWeight: '600',
+    color: '#FFFFFF',
   },
 });
 

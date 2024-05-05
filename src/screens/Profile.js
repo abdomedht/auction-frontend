@@ -6,7 +6,7 @@ const Profile = () => {
     name: "John Doe",
     phoneNumber: "123-456-7890",
     email: "john@example.com",
-    profileImage: require("../../assets/profilePhoto/13d98ca39a742dce8ea3fe9fce8b9298.jpg"),
+    profileImage: require("../assets/profilePhoto/13d98ca39a742dce8ea3fe9fce8b9298.jpg"),
   };
 
   return (

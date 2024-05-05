@@ -1,66 +1,76 @@
-import React, { useState } from 'react';
-import { View, TextInput, TouchableOpacity, Text, StyleSheet, Alert } from 'react-native';
+import React from 'react';
+import { View, TouchableOpacity, Text, StyleSheet, Alert } from 'react-native';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import handleLogin from '../api/login';
+import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
+import TextInputField from '../components/TextInputField-login'; // Reusable input field component
+import ErrorText from '../components/ErrorText'; // Reusable error text component
+import handleLogin from '../api/login'; // Login handler
+
 const validationSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email').required('*required'),
-  password: Yup.string().min(5, 'Password must be at least 6 characters').required('*required'),
+  password: Yup.string().min(6, 'Password must be at least 6 characters').required('*required'),
 });
 
 const LoginForm = ({ navigation }) => {
-  const handleSubmit = async (values) => {
+  const handleLoginSubmit = async (values, { setSubmitting }) => {
     try {
-      
-      
-      const res  =   await handleLogin(values);
-      
-      if (res.ok) {
-      navigation.navigate('HomeTabs');}
+      const response = await handleLogin(values);
+      if (response.status >= 200 && response.status < 300) {
+        navigation.navigate('HomeTabs'); // Successful login
+      } else {
+        Alert.alert('Login failed', 'Invalid credentials. Please try again.');
+      }
     } catch (error) {
-      
-      console.error('Registration failed:', error);
+      console.error('Login failed:', error);
+      Alert.alert('Unexpected error', 'Please try again later.');
+    } finally {
+      setSubmitting(false);
     }
   };
+
   return (
     <Formik
       initialValues={{ email: '', password: '' }}
       validationSchema={validationSchema}
-      onSubmit={handleSubmit}
+      onSubmit={handleLoginSubmit}
     >
-      {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
+      {({ handleChange, handleBlur, handleSubmit, values, errors, touched, isSubmitting }) => (
         <View style={styles.container}>
-          {touched.email && errors.email && <Text style={styles.errorText}>{errors.email}</Text>}
-          <TextInput
-            style={styles.input}
-            onChangeText={handleChange('email')}
-            onBlur={handleBlur('email')}
-            value={values.email}
+          <ErrorText text={touched.email && errors.email} />
+          <TextInputField
             placeholder="Email"
             keyboardType="email-address"
             autoCapitalize="none"
+            onChangeText={handleChange('email')}
+            onBlur={handleBlur('email')}
+            value={values.email}
+            errorText={touched.email && errors.email} // Pass error status for styling
           />
-          {touched.password && errors.password && <Text style={styles.errorText}>{errors.password}</Text>}
-          <TextInput
-            style={styles.input}
+
+          <ErrorText text={touched.password && errors.password} />
+          <TextInputField
+            placeholder="Password"
+            secureTextEntry
             onChangeText={handleChange('password')}
             onBlur={handleBlur('password')}
             value={values.password}
-            placeholder="Password"
-            secureTextEntry
+            errorText={touched.password && errors.password} // Pass error status for styling
           />
+
           <TouchableOpacity
             style={styles.submitButton}
             onPress={handleSubmit}
+            disabled={isSubmitting}
           >
             <Text style={styles.buttonText}>Log In</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             style={styles.signUpButton}
-            onPress={() => navigation.navigate("SignUpForm")}
+            onPress={() => navigation.navigate('SignUpForm')}
           >
-            <Text style={styles.text}>Create an account</Text>
+            <Text style={styles.signUpText}>Create an account</Text>
           </TouchableOpacity>
         </View>
       )}
@@ -70,52 +80,37 @@ const LoginForm = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 20,
+    padding: moderateScale(20),
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#f8f8f8',
   },
-  input: {
-    width: 300,
-    height: 50,
-    borderColor: '#ccc',
-    borderWidth: 1,
-    marginBottom: 20,
-    borderRadius: 10,
-    paddingHorizontal: 10,
-    backgroundColor: '#fff',
-  },
   submitButton: {
     alignItems: 'center',
-    width: 250,
-    height: 48,
-    borderRadius: 15,
+    width: scale(250),
+    height: verticalScale(48),
+    borderRadius: moderateScale(15),
     backgroundColor: '#FF5500',
     justifyContent: 'center',
-    marginTop: 20,
+    marginTop: verticalScale(20),
   },
   buttonText: {
     fontFamily: 'Roboto',
-    fontSize: 16,
+    fontSize: moderateScale(16),
     fontWeight: '600',
     color: '#FFFFFF',
   },
   signUpButton: {
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 20,
+    marginTop: verticalScale(20),
   },
-  text: {
+  signUpText: {
     fontFamily: 'Roboto',
-    fontSize: 16,
+    fontSize: moderateScale(16),
     fontWeight: '600',
     color: '#000000',
-  },
-  errorText: {
-    color: 'red',
-    marginBottom: 5,
-    fontSize: 12,
   },
 });
 

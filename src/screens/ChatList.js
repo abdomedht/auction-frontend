@@ -14,19 +14,19 @@ const contacts = [
     id: 1,
     name: "John Doe",
     phoneNumber: "123-456-7890",
-    image: require("../../assets/profilePhoto/13d98ca39a742dce8ea3fe9fce8b9298.jpg"),
+    image: require("../assets/profilePhoto/13d98ca39a742dce8ea3fe9fce8b9298.jpg"),
   },
   {
     id: 2,
     name: "Jane Smith",
     phoneNumber: "987-654-3210",
-    image: require("../../assets/profilePhoto/15cf851ec833e19e06f4cc02dc77c852.jpg"),
+    image: require("../assets/profilePhoto/15cf851ec833e19e06f4cc02dc77c852.jpg"),
   },
   {
     id: 3,
     name: "Alice Johnson",
     phoneNumber: "456-789-0123",
-    image: require("../../assets/profilePhoto/7418a925e469a3b6f452e1330f15d6f2.jpg"),
+    image: require("../assets/profilePhoto/7418a925e469a3b6f452e1330f15d6f2.jpg"),
   },
   // Add more contacts as needed
 ];
