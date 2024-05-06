@@ -11,7 +11,7 @@ const ImageHome = () => {
     </View>
   );
 };
-
+//ddd
 const styles = StyleSheet.create({
   container: {
     justifyContent: "center",
