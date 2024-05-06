@@ -21,7 +21,7 @@ const register = async (values) => {
     if (response.status === 201) { // Typically, 201 indicates resource creation
       console.log('Register Created Successfully:', response.data);
       Alert.alert("Register Created Successfully", JSON.stringify(response.data));
-      return response.data; // Return the created resource or response data
+      return response; // Return the created resource or response data
     } else if (response.status === 400) {
       Alert.alert("Register Failed", "Email already exists");
     } else if (response.status >= 500) {

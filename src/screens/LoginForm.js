@@ -3,10 +3,11 @@ import { View, TouchableOpacity, Text, StyleSheet, Alert } from 'react-native';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
+import * as Animatable from 'react-native-animatable';
 import TextInputField from '../components/TextInputField-login'; // Reusable input field component
 import ErrorText from '../components/ErrorText'; // Reusable error text component
 import handleLogin from '../api/login'; // Login handler
-
+import { ActivityIndicator } from 'react-native';
 const validationSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email').required('*required'),
   password: Yup.string().min(6, 'Password must be at least 6 characters').required('*required'),
@@ -14,18 +15,18 @@ const validationSchema = Yup.object().shape({
 
 const LoginForm = ({ navigation }) => {
   const handleLoginSubmit = async (values, { setSubmitting }) => {
+    setSubmitting(true); // Start spinning animation
     try {
       const response = await handleLogin(values);
       if (response.status >= 200 && response.status < 300) {
         navigation.navigate('HomeTabs'); // Successful login
-      } else {
-        Alert.alert('Login failed', 'Invalid credentials. Please try again.');
-      }
+      } 
+
     } catch (error) {
       console.error('Login failed:', error);
-      Alert.alert('Unexpected error', 'Please try again later.');
+      
     } finally {
-      setSubmitting(false);
+      setSubmitting(false); // Stop spinning animation
     }
   };
 
@@ -59,11 +60,18 @@ const LoginForm = ({ navigation }) => {
           />
 
           <TouchableOpacity
-            style={styles.submitButton}
+            style={[styles.submitButton, isSubmitting && styles.disabledButton]}
             onPress={handleSubmit}
             disabled={isSubmitting}
           >
-            <Text style={styles.buttonText}>Log In</Text>
+            {isSubmitting ? (
+              
+              <Animatable.View animation="rotate" iterationCount="infinite" duration={800}>
+                 <ActivityIndicator size="large" color="#FFFFFF" />
+              </Animatable.View>
+            ) : (
+              <Text style={styles.buttonText}>Log In</Text>
+            )}
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -94,6 +102,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#FF5500',
     justifyContent: 'center',
     marginTop: verticalScale(20),
+  },
+  disabledButton: {
+    opacity: 0.8, // Lighten the button when disabled
   },
   buttonText: {
     fontFamily: 'Roboto',

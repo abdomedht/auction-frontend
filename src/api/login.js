@@ -20,6 +20,7 @@ const handleLogin = async (values,na) => {
       return response; // Return data or response, depending on what you need
     } else if (response.status === 400) { // Bad Request
       Alert.alert('Login Failed', 'User not found');
+      
     }
     
     else if (response.status === 500) { // Server Error
