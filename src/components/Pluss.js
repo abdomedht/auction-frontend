@@ -8,7 +8,7 @@ const AuctionForm = ({ handlePress }) => {
       <MaterialCommunityIcons
         name="plus"
         color={"#FFFFFF"}
-        size={31}
+        size={30}
         style={styles.createButtonText}
       />
     </TouchableOpacity>
