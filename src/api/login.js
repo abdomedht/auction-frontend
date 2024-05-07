@@ -1,7 +1,7 @@
 import { Alert } from 'react-native';
 import axios from 'axios';
 
-const handleLogin = async (values,na) => {
+const handleLogin = async (values) => {
   try {
     const response = await axios.post(
       'https://auction-online-iw6c.onrender.com/api/users/login',
@@ -17,6 +17,7 @@ const handleLogin = async (values,na) => {
       console.log('Login Successful:', response.data);
       Alert.alert('Login Successful', 'You have successfully logged in!');
       
+
       return response; // Return data or response, depending on what you need
     } else if (response.status === 400) { // Bad Request
       Alert.alert('Login Failed', 'User not found');

@@ -19,7 +19,7 @@ const LoginForm = ({ navigation }) => {
     try {
       const response = await handleLogin(values);
       if (response.status >= 200 && response.status < 300) {
-        navigation.navigate('HomeTabs'); // Successful login
+         navigation.navigate('HomeTabs'); // Successful login
       } 
 
     } catch (error) {
@@ -67,7 +67,7 @@ const LoginForm = ({ navigation }) => {
             {isSubmitting ? (
               
               <Animatable.View animation="rotate" iterationCount="infinite" duration={800}>
-                 <ActivityIndicator size="large" color="#FFFFFF" />
+                  <ActivityIndicator size="large" color="#FFFFFF" />
               </Animatable.View>
             ) : (
               <Text style={styles.buttonText}>Log In</Text>
