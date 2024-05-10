@@ -7,61 +7,21 @@ import ImageHome from "../components/ImageHome";
 import BoxHorizComing from "../components/BoxHorizComing";
 console.log("executed Home");
 const PRODUCTS = [
-<<<<<<< HEAD
-  {
-    id: 0,
-    productImage: require("../assets/productImages/FB_IMG_1608891063790.jpg"),
-    productName: "Fiat 500",
-    currentPriceBid: "$50.000",
-  },
-  {
-    id: 1,
-    productImage: require("../assets/productImages/5d02da5df552836db894cead8a68f5f3 1.png"),
-    productName: "huawei-freebuds-4i",
-    currentPriceBid: "$700",
-  },
-  {
-    id: 2,
-    productImage: require("../assets/productImages/MacBook_Air_Retina_M1_240x160 1.png"),
-    productName: "MacBook_Air_Retina",
-    currentPriceBid: "$1030",
-  },
-];
-const COMING = [
-  {
-    id: 0,
-    productImage: require("../assets/productImages/944744_1f632825a2484b929c5f22350a4de635_mv2 1.png"),
-    productName: "Huawei Matebook x13",
-    startIn: "12Feb 09:00am",
-  },
-  {
-    id: 1,
-    productImage: require("../assets/productImages/d_cc 1.png"),
-    productName: "Alexa Home",
-    startIn: "6March 01:00pm",
-  },
-  {
-    id: 2,
-    productImage: require("../assets/productImages/au-galaxy-buds-live-r180-sm-r180nzkaasa-casefrontopencombinationmysticblack-275665649 1.png"),
-    productName: "galaxy buds",
-    startIn: "11Dec 11:00am",
-  },
-=======
     {
         id: 0,
-        productImage: require("../../assets/productImages/FB_IMG_1608891063790.jpg"),
+        productImage: require("../assets/productImages/FB_IMG_1608891063790.jpg"),
         productName: "Fiat 500",
         currentPriceBid: "$50.000",
     },
     {
         id: 1,
-        productImage: require("../../assets/productImages/5d02da5df552836db894cead8a68f5f3 1.png"),
+        productImage: require("../assets/productImages/5d02da5df552836db894cead8a68f5f3 1.png"),
         productName: "huawei-freebuds-4i",
         currentPriceBid: "$700",
     },
     {
         id: 2,
-        productImage: require("../../assets/productImages/MacBook_Air_Retina_M1_240x160 1.png"),
+        productImage: require("../assets/productImages/MacBook_Air_Retina_M1_240x160 1.png"),
         productName: "MacBook_Air_Retina",
         currentPriceBid: "$1030",
     },
@@ -69,33 +29,28 @@ const COMING = [
 const COMING = [
     {
         id: 0,
-        productImage: require("../../assets/productImages/944744_1f632825a2484b929c5f22350a4de635_mv2 1.png"),
+        productImage: require("../assets/productImages/944744_1f632825a2484b929c5f22350a4de635_mv2 1.png"),
         productName: "Huawei Matebook x13",
         startIn: "12Feb 09:00am",
     },
     {
         id: 1,
-        productImage: require("../../assets/productImages/d_cc 1.png"),
+        productImage: require("../assets/productImages/d_cc 1.png"),
         productName: "Alexa Home",
         startIn: "6March 01:00pm",
     },
     {
         id: 2,
-        productImage: require("../../assets/productImages/au-galaxy-buds-live-r180-sm-r180nzkaasa-casefrontopencombinationmysticblack-275665649 1.png"),
+        productImage: require("../assets/productImages/au-galaxy-buds-live-r180-sm-r180nzkaasa-casefrontopencombinationmysticblack-275665649 1.png"),
         productName: "galaxy buds",
         startIn: "11Dec 11:00am",
     },
->>>>>>> c79958e235edd9aed3176c79fd138325e6dca064
 ];
 
 const Home = ({ navigation }) => {
     return (
         <SafeAreaView style={styles.container}>
-            <TopBarHome
-                handlePress={() => {
-                    navigation.navigate("search");
-                }}
-            />
+            <TopBarHome />
             <ImageHome />
             <ListHorizBid
                 PRODUCTS={PRODUCTS}
@@ -117,7 +72,6 @@ const Home = ({ navigation }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        // backgroundColor: "#cfcfcf",
     },
 
     bidNow: {
