@@ -11,9 +11,9 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import * as Animatable from "react-native-animatable";
 import { scale, verticalScale, moderateScale } from "react-native-size-matters";
-import TextInputField from "../components/TextInputField-signUp"; // Reusable input field component
-import ErrorText from "../components/ErrorText"; // Reusable error text component
-import register from "../api/register"; // Registration handler
+import TextInputField from "../components/TextInputField-signUp"; 
+import ErrorText from "../components/ErrorText"; 
+import register from "../api/register"; 
 
 const validationSchema = Yup.object().shape({
     firstName: Yup.string().required("*required"),
@@ -32,12 +32,12 @@ const validationSchema = Yup.object().shape({
 
 const SignUpForm = ({ navigation }) => {
     const handleSignUp = async (values, { setSubmitting }) => {
-        setSubmitting(true); // Start spinning animation
+        setSubmitting(true); 
         try {
             const response = await register(values);
 
             if (response.status >= 200 && response.status < 300) {
-                navigation.navigate("LoginForm"); // Successful registration
+                navigation.navigate("LoginForm"); 
             }
         } catch (error) {
             console.error("Registration failed:", error);
