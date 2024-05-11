@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+
 import {
   View,
   Text,
@@ -14,10 +15,10 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import * as ImagePicker from 'expo-image-picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
-
+import createAuction from '../api/create-auction';
 const AddAuction = () => {
   const [images, setImages] = useState([]);
-  const [isStartPickerOpen, setStartPickerOpen] = useState(false); // Correct initialization
+  const [isStartPickerOpen, setStartPickerOpen] = useState(false); 
   const [isEndPickerOpen, setEndPickerOpen] = useState(false);
 
   const handleImageUpload = async (setFieldValue) => {
@@ -27,12 +28,14 @@ const AddAuction = () => {
       return;
     }
 
-    const pickerResult = await ImagePicker.launchImageLibraryAsync({ mediaTypes: ImagePicker.MediaTypeOptions.Images });
+    const pickerResult = await ImagePicker.launchImageLibraryAsync({ mediaTypes: ImagePicker.MediaTypeOptions.images });
 
     if (!pickerResult.cancelled) {
       if (images.length < 3) {
-        setImages([...images, pickerResult.uri]);
-        setFieldValue('images', [...images, pickerResult.uri]); // Update Formik field value
+            const updatedImages = [...images, pickerResult.assets[0].uri]; // Assuming pickerResult.assets is an array
+
+        setImages([...images, pickerResult.assets[0].uri]);
+        setFieldValue('images', [...images, pickerResult.assets[0].uri]); 
       } else {
         Alert.alert('Maximum Images Reached', 'You can upload up to 3 images.');
       }
@@ -40,17 +43,19 @@ const AddAuction = () => {
   };
 
   const validationSchema = Yup.object().shape({
-    productName: Yup.string().required('Product Name is required'),
-    buyPrice: Yup.number()
+    name: Yup.string().required('Product Name is required'),
+    maxPrice: Yup.number()
       .required('Buy Price is required')
       .positive('Must be a positive number'),
-    startAuctionPrice: Yup.number()
+    initialPrice: Yup.number()
       .required('Start Auction Price is required')
       .positive('Must be a positive number'),
-    startAuctionDate: Yup.date().required('Start Date and Time are required'),
-    endAuctionDate: Yup.date()
-      .required('End Date and Time are required')
-      .min(Yup.ref('startAuctionDate'), 'End Date must be after the Start Date'),
+    startDate: Yup.date().required('Start Date and Time are required'),
+    endDate: Yup.date()
+      .required('End Date and Time are required'),
+      
+    description: Yup.string().required('Description is required'),
+    quantity: Yup.number().required('Quantity is required').positive('Must be a positive number'),
   });
 
   return (
@@ -58,40 +63,32 @@ const AddAuction = () => {
       <View style={styles.container}>
         <Formik
           initialValues={{
-            productName: '',
+            name: '',
             description: '',
             images: [],
-            buyPrice: '',
-            startAuctionPrice: '',
-            startAuctionDate: new Date(), // Default to current
-            endAuctionDate: new Date(),  // Default to current
+            maxPrice: '',
+            quantity: '',
+            initialPrice: '',
+            startDate: new Date(), 
+            endDate: new Date(),  
           }}
           validationSchema={validationSchema}
           onSubmit={async (values, { resetForm }) => {
-            console.log('Form values:', values);
+            console.log('Form Values:', values);
+          const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXIzQGdtLmNvbSIsImlkIjoiNjYzZWRjZjY2OTVkZGJkNGI5Y2E0OTJlIiwiaWF0IjoxNzE1NDM2NTU1LCJleHAiOjE3MTgwMjg1NTV9.78M0Fj70DMpFwnEju_OqlhhDxLKWjN-ZMC5_gk1TMvY'
             try {
-              const response = await fetch('', {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(values),
-              });
-
-              if (response.ok) {
-                Alert.alert('Success', 'Auction Created Successfully');
-                resetForm(); // Reset the form fields
-                setImages([]); // Clear images after submission
-              } else {
-                throw new Error('Failed to create auction');
-              }
+              
+              const response = await createAuction(values, token);
+              console.log('Response:', response); 
+              if(response.status >= 200 && response.status < 300)
+                {
+                Alert.alert('Success', 'Auction created successfully');
+                resetForm();
+               ;}
+              
             } catch (error) {
-              console.error('Error:', error);
-              Alert.alert(
-                'Error',
-                'Failed to create auction. Please try again later.'
-              );
-              console.log('Form values:', values);
+              Alert.alert('Error', 'Failed to create auction. Please try again later.');
+              console.log('Error creating auction:2', error);
             }
           }}
         >
@@ -109,23 +106,23 @@ const AddAuction = () => {
                   {/* Start Auction Date and Time */}
                   <View>
                     <Text style={styles.label}>Start Auction Date and Time:</Text>
-                    {touched.startAuctionDate && errors.startAuctionDate && (
-                      <Text style={styles.error}>{errors.startAuctionDate}</Text>
+                    {touched.startDate && errors.startDate && (
+                      <Text style={styles.error}>{errors.startDate}</Text>
                     )}
                     <TouchableOpacity
                       style={styles.datePickerButton}
                       onPress={() => setStartPickerOpen(true)}
                     >
-                      <Text>{values.startAuctionDate.toLocaleString()}</Text>
+                      <Text>{values.startDate.toLocaleString()}</Text>
                     </TouchableOpacity>
                     {isStartPickerOpen && (
                       <DateTimePicker
-                        value={values.startAuctionDate}
+                        value={values.startDate}
                         mode="date"
                         onChange={(event, selectedDate) => {
                           setStartPickerOpen(false);
                           if (selectedDate) {
-                            setFieldValue('startAuctionDate', selectedDate);
+                            setFieldValue('startDate', selectedDate);
                           }
                         } } />
                     )}
@@ -134,23 +131,23 @@ const AddAuction = () => {
                   {/* End Auction Date and Time */}
                   <View>
                     <Text style={styles.label}>End Auction Date and Time:</Text>
-                    {touched.endAuctionDate && errors.endAuctionDate && (
-                      <Text style={styles.error}>{errors.endAuctionDate}</Text>
+                    {touched.endDate && errors.endDate && (
+                      <Text style={styles.error}>{errors.endDate}</Text>
                     )}
                     <TouchableOpacity
                       style={styles.datePickerButton}
                       onPress={() => setEndPickerOpen(true)}
                     >
-                      <Text>{values.endAuctionDate.toLocaleString()}</Text>
+                      <Text>{values.endDate.toLocaleString()}</Text>
                     </TouchableOpacity>
                     {isEndPickerOpen && (
                       <DateTimePicker
-                        value={values.endAuctionDate}
+                        value={values.endDate}
                         mode="date"
                         onChange={(event, selectedDate) => {
                           setEndPickerOpen(false);
                           if (selectedDate) {
-                            setFieldValue('endAuctionDate', selectedDate);
+                            setFieldValue('endDate', selectedDate);
                           }
                         } } />
                     )}
@@ -158,15 +155,15 @@ const AddAuction = () => {
 
                   {/* Other form fields */}
                   <View>
-                    {touched.productName && errors.productName && (
+                    {touched.name && errors.name && (
                       <Text style={styles.error}>{errors.productName}</Text>
                     )}
                     <TextInput
                       style={styles.input}
                       placeholder="Product Name"
-                      value={values.productName}
-                      onChangeText={handleChange('productName')}
-                      onBlur={handleBlur('productName')} />
+                      value={values.name}
+                      onChangeText={handleChange('name')}
+                      onBlur={handleBlur('name')} />
                   </View>
                   <View>
                     {touched.description && errors.description && (
@@ -182,30 +179,42 @@ const AddAuction = () => {
 
                   {/* Buy Price */}
                   <View>
-                    {touched.buyPrice && errors.buyPrice && (
-                      <Text style={styles.error}>{errors.buyPrice}</Text>
+                    {touched.maxPrice && errors.maxPrice && (
+                      <Text style={styles.error}>{errors.maxPrice}</Text>
                     )}
                     <TextInput
                       style={styles.input}
                       placeholder="Buy Price"
                       keyboardType="numeric"
-                      value={values.buyPrice}
-                      onChangeText={handleChange('buyPrice')}
-                      onBlur={handleBlur('buyPrice')} />
+                      value={values.maxPrice}
+                      onChangeText={handleChange('maxPrice')}
+                      onBlur={handleBlur('maxPrice')} />
                   </View>
 
                   {/* Start Auction Price */}
                   <View>
-                    {touched.startAuctionPrice && errors.startAuctionPrice && (
-                      <Text style={styles.error}>{errors.startAuctionPrice}</Text>
+                    {touched.initialPrice && errors.initialPrice && (
+                      <Text style={styles.error}>{errors.initialPrice}</Text>
                     )}
                     <TextInput
                       style={styles.input}
                       placeholder="Start Auction Price"
                       keyboardType="numeric"
-                      value={values.startAuctionPrice}
-                      onChangeText={handleChange('startAuctionPrice')}
-                      onBlur={handleBlur('startAuctionPrice')} />
+                      value={values.initialPrice}
+                      onChangeText={handleChange('initialPrice')}
+                      onBlur={handleBlur('initialPrice')} />
+                  </View>
+                  <View>
+                    {touched.quantity && errors.quantity && (
+                      <Text style={styles.error}>{errors.quantity}</Text>
+                    )}
+                    <TextInput
+                      style={styles.input}
+                      placeholder="quantity"
+                      keyboardType="numeric"
+                      value={values.quantity}
+                      onChangeText={handleChange('quantity')}
+                      onBlur={handleBlur('quantity')} />
                   </View>
 
                  {/* Image Upload Button */}
@@ -247,9 +256,11 @@ const styles = ScaledSheet.create({
   container: {
     flex: 1,
     padding: '20@ms',
-    paddingTop: '150@vs',
+    paddingTop: '100@vs',
     justifyContent: 'center',
     alignItems: 'center',
+        backgroundColor: "#F7F6F4",
+
   },
   datePickerButton: {
     height: '40@vs',
@@ -259,6 +270,7 @@ const styles = ScaledSheet.create({
     justifyContent: "center",
     paddingHorizontal: '10@ms',
     width: '350@ms',
+    backgroundColor: "#F7F6F4"
   },
   error: {
     color: 'red',
@@ -270,6 +282,7 @@ const styles = ScaledSheet.create({
     paddingVertical: '10@vs',
     paddingHorizontal: '20@ms',
     alignItems: 'center',
+    marginBottom: '10@vs',
   },
   uploadText: {
     color: '#FFF',
@@ -278,10 +291,12 @@ const styles = ScaledSheet.create({
   imageContainer: {
     flexDirection: 'row',
     marginBottom: '10@vs',
+    justifyContent: 'center',
   },
   image: {
-    width: '150@ms',
-    height: '150@ms',
+
+    width: '100@ms',
+    height: '100@ms',
     marginRight: '10@ms',
   },
   submitButton: {

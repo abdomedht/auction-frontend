@@ -24,11 +24,11 @@ const handleLogin = async (values) => {
       
     }
     
-    else if (response.status === 500) { // Server Error
+    else if (response.status === 500) {
       Alert.alert('Server Error', 'Please try again later');
     }
   } catch (error) {
-    if (error.response) { // The server responded with an error
+    if (error.response) { 
       const status = error.response.status;
       if (status === 400) {
         Alert.alert('Login Failed', 'User not found');
