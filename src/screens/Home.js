@@ -1,10 +1,12 @@
 import React, { useState } from "react";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import { StyleSheet, SafeAreaView } from "react-native";
+import Pluss from "../components/Pluss";
+import { StyleSheet, SafeAreaView, Text } from "react-native";
 import TopBarHome from "../components/TopBarHome";
 import ListHorizBid from "../components/ListHorizBid";
 import ImageHome from "../components/ImageHome";
 import BoxHorizComing from "../components/BoxHorizComing";
+import { useSelector, useDispatch } from "react-redux";
+import { decrement, increment } from "../store/counterReducer";
 console.log("executed Home");
 const PRODUCTS = [
     {
@@ -48,22 +50,24 @@ const COMING = [
 ];
 
 const Home = ({ navigation }) => {
+    const { value } = useSelector((state) => state.counter);
+    const dispatch = useDispatch();
     return (
         <SafeAreaView style={styles.container}>
             <TopBarHome />
             <ImageHome />
+            <Text>{value}</Text>
             <ListHorizBid
                 PRODUCTS={PRODUCTS}
                 handlePress={() => {
-                    console.log("imagine auction bid ");
-                    // navigation.navigate("AuctionRoom");
+                    dispatch(increment());
                 }}
             />
+            {/* <Pluss handlePress={console.log("give me more")} /> */}
             <BoxHorizComing
                 PRODUCTS={COMING}
                 handlePress={() => {
-                    console.log("imagine auction coming");
-                    // navigation.navigate("AuctionRoom");
+                    dispatch(decrement());
                 }}
             />
         </SafeAreaView>
