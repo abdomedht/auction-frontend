@@ -5,7 +5,6 @@ const register = async (values) => {
     try {
         // Exclude `confirmPassword` from the data sent to the server
         const { confirmPassword, ...formData } = values;
-
         // Make the POST request to register the user
         const response = await axios.post(
             "https://auction-online-iw6c.onrender.com/api/users/register",
@@ -16,7 +15,6 @@ const register = async (values) => {
                 },
             }
         );
-
         // Check if the request was successful
         if (response.status === 201) {
             // Typically, 201 indicates resource creation
