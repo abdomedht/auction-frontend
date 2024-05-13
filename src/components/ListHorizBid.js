@@ -7,7 +7,6 @@ import {
     Image,
     TouchableOpacity,
 } from "react-native";
-import Pluss from "./Pluss";
 const ListHorizBid = ({ PRODUCTS, handlePress }) => {
     return (
         <View style={styles.container}>
@@ -15,27 +14,26 @@ const ListHorizBid = ({ PRODUCTS, handlePress }) => {
             <FlatList
                 horizontal={true}
                 data={PRODUCTS}
-                keyExtractor={(item) => item.id}
+                keyExtractor={(item) => item._id}
                 renderItem={({ item }) => (
                     <TouchableOpacity
                         style={[styles.boxHorizontal]}
                         onPress={handlePress}>
                         <Image
-                            source={item.productImage}
+                            source={item.product.images[0]}
                             style={styles.productImageList}
                         />
                         <Text style={{ fontSize: 12, paddingTop: 10 }}>
-                            {item.productName}
+                            {item.product.description}
                         </Text>
                         <View style={styles.liView}>
                             <Text style={styles.highest}>
-                                Highest: {item.currentPriceBid}
+                                Highest: {item.product.maxPrice}
                             </Text>
                         </View>
                     </TouchableOpacity>
                 )}
             />
-            {/* <Pluss handlePress={console.log("give me more")} /> */}
         </View>
     );
 };
@@ -43,7 +41,6 @@ const ListHorizBid = ({ PRODUCTS, handlePress }) => {
 const styles = StyleSheet.create({
     container: {
         paddingHorizontal: 10,
-        // flexDirection: "row",
     },
     text: {
         fontWeight: "800",

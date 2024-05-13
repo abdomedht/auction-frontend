@@ -1,9 +1,181 @@
+import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
 
+scale()
+verticalScale()
+moderateScale()
+
+
+{
+  "_id": "664154396a594fe0449755c5",
+  "createdAt": "2024-05-12T23:43:54.060Z",
+  "endDate": "2024-05-31T00:41:00.000Z",
+  "id": "664154396a594fe0449755c5",
+  "product": {"__v": 0, "_id": "664154396a594fe0449755c3", "description": "Fff", "images": [], "initialPrice": 88888, "maxPrice": 5555, "name": "Dffg", "quantity": 555},
+  "seller": {"__v": 0, "_id": "663edcf6695ddbd4b9ca492e", "address": {"_id": "663edcf6695ddbd4b9ca492f", "city": "", "country": "", "houseNumber": "", "street": ""},
+  "email": "user3@gm.com", "firstName": "Abdullah", "lastName": "Oun", "phone": "01098775035"}, 
+  "startDate": "2024-05-13T00:41:48.723Z", "status": "running", "updatedAt": "2024-05-12T23:43:54.060Z"}
+//home copeid
+{
+import React, { useState, useEffect } from "react";
+import { StyleSheet, SafeAreaView, Text, Alert } from "react-native";
+import TopBarHome from "../components/TopBarHome";
+import ListHorizBid from "../components/ListHorizBid";
+import ImageHome from "../components/ImageHome";
+import BoxHorizComing from "../components/BoxHorizComing";
+import { useSelector } from "react-redux";
+import axiosInstance from "../api/axiosConfig";
+console.log("executed Home");
+const PRODUCTS = [
+    {
+        id: 0,
+        productImage: require("../assets/productImages/FB_IMG_1608891063790.jpg"),
+        productName: "Fiat 500",
+        currentPriceBid: "$50.000",
+    },
+    {
+        id: 1,
+        productImage: require("../assets/productImages/5d02da5df552836db894cead8a68f5f3 1.png"),
+        productName: "huawei-freebuds-4i",
+        currentPriceBid: "$700",
+    },
+    {
+        id: 2,
+        productImage: require("../assets/productImages/MacBook_Air_Retina_M1_240x160 1.png"),
+        productName: "MacBook_Air_Retina",
+        currentPriceBid: "$1030",
+    },
+];
+const COMING = [
+    {
+        id: 0,
+        productImage: require("../assets/productImages/944744_1f632825a2484b929c5f22350a4de635_mv2 1.png"),
+        productName: "Huawei Matebook x13",
+        startIn: "12Feb 09:00am",
+    },
+    {
+        id: 1,
+        productImage: require("../assets/productImages/d_cc 1.png"),
+        productName: "Alexa Home",
+        startIn: "6March 01:00pm",
+    },
+    {
+        id: 2,
+        productImage: require("../assets/productImages/au-galaxy-buds-live-r180-sm-r180nzkaasa-casefrontopencombinationmysticblack-275665649 1.png"),
+        productName: "galaxy buds",
+        startIn: "11Dec 11:00am",
+    },
+];
+const Home = ({ navigation }) => {
+    const [auctions, setAuctions] = useState([]);
+    useEffect(() => {
+        (async () => {
+            try {
+                const response = await axiosInstance.get("auctions");
+                if (!response.data.error) {
+                    setAuctions(response.data.data.auctions);
+                    console.log(auctions[0]);
+                } else {
+                    Alert.alert(response.data.error);
+                }
+            } catch (error) {
+                Alert.alert(error);
+            }
+        })();
+    }, []);
+    return (
+        <SafeAreaView style={styles.container}>
+            <TopBarHome
+                handlePress={() => {
+                    navigation.navigate("search");
+                }}
+            />
+            <ImageHome />
+            <ListHorizBid PRODUCTS={auctions} handlePress={() => {}} />
+            <BoxHorizComing PRODUCTS={COMING} handlePress={() => {}} />
+        </SafeAreaView>
+    );
+};
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+    },
+});
+export default Home;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const [auction, setAuctions] = useState([]);
+ const fetchAuctions = useCallback(async () => {
+     const result = await fetch(
+         "httpauction-online-iw6c.onrender.com/api/auctions"
+     );
+     if (result.ok) {
+         const palettes = await result.json();
+         setAuctions(palettes);
+       console.log(palettes);
+         console.log("#####################################");
+     }
+ }, []);
+ fetchAuctions();
+ useEffect(() => {
+     fetchAuctions();
+ }, []);
+  console.log(auction.data.auctions);
+ 
           
       
     
   
-  
+      async function fetchAuctions() {
+        const response = await fetch(
+            "https://auction-online-iw6c.onrender.com/api/auctions"
+        );
+        const auctions = await response.json();
+        console.log(auctions.data.auctions);
+    }
+    fetchAuctions();
       
       
   <View style={styles.desContainer}>
@@ -22,3 +194,43 @@
           air-cooled engine
         </Text>
       </View>
+
+
+
+
+         // const [auctions, setAuctions] = useState([]);
+    // const fetchAuctions = useCallback(async () => {
+    //     const result = await fetch(
+    //         "httpauction-online-iw6c.onrender.com/api/auctions"
+    //     );
+    //     if (result.ok) {
+    //         const palettes = await result.json();
+    //         // console.log(palettes.data.auctions);
+    //         setAuctions(palettes.data);
+    //     }
+    // }, []);
+    // fetchAuctions();
+    // useEffect(() => {
+    //     fetchAuctions();
+    // }, []);
+    // console.log(auctions.data.auctions);
+
+
+
+
+        async function fetchAuctions() {
+        const response = await fetch(
+            "https://auction-online-iw6c.onrender.com/api/auctions"
+        );
+        const getAuctions = await response.json();
+        return getAuctions;
+    }
+    fetchAuctions();
+    const auction = getAuctions.data.auctions;
+
+
+
+
+                // const { userId, token } = useSelector((state) => state.user);
+                {/* <Text>{userId}</Text>
+            <Text>{token}</Text> */}

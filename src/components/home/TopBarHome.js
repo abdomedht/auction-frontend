@@ -15,7 +15,6 @@ const TopBarHome = ({ handlePress }) => {
                         size={32}
                     />
                 </TouchableOpacity>
-
                 <MaterialCommunityIcons
                     name="bell"
                     color={"#00000070"}

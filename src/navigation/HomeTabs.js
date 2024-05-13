@@ -31,16 +31,6 @@ export default function HomeTabs() {
                     ),
                 }}
             />
-            {/* <Tab.Screen
-        name="Favorite"
-        component={Favorite}
-        options={{
-          tabBarLabel: "",
-          tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="heart" color={color} size={26} />
-          ),
-        }}
-      /> */}
             <Tab.Screen
                 name="ChatList"
                 component={ChatList}
