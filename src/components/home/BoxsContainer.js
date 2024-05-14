@@ -16,8 +16,10 @@ export default function BoxsContainer() {
 const styles = StyleSheet.create({
     containerBoxs: {
         flexDirection: "row",
-        backgroundColor: "red",
+        backgroundColor: "#fff",
         justifyContent: "space-between",
-        paddingHorizontal: scale(10),
+        paddingHorizontal: scale(7),
+        borderRadius: 15,
+        marginTop: verticalScale(8),
     },
 });
