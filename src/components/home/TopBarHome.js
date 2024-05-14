@@ -2,7 +2,7 @@ import React from "react";
 import { TouchableOpacity } from "react-native";
 import { Text, View, StyleSheet } from "react-native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-
+import { scale, verticalScale, moderateScale } from "react-native-size-matters";
 const TopBarHome = ({ handlePress }) => {
     return (
         <View style={styles.container}>
@@ -29,18 +29,18 @@ const TopBarHome = ({ handlePress }) => {
 const styles = StyleSheet.create({
     container: {
         flexDirection: "row",
-        paddingTop: 37,
-        paddingBottom: 8,
-        paddingHorizontal: 20,
+        paddingTop: verticalScale(32),
+        paddingBottom: verticalScale(8),
+        paddingHorizontal: scale(20),
         justifyContent: "space-between",
         backgroundColor: "#FFFFFF",
-        borderRadius: 15,
+        borderRadius: scale(25),
     },
     proName: {
-        fontSize: 28,
+        fontSize: scale(28),
         fontWeight: "bold",
         color: "#FF5500",
-        borderRadius: 15,
+        borderRadius: scale(15),
     },
     iconsTopView: {
         flexDirection: "row",
@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
         alignContent: "center",
     },
     materialIcon: {
-        marginLeft: 10,
+        marginLeft: scale(10),
     },
 });
 
