@@ -1,11 +1,8 @@
 import axios from 'axios';
-import { Platform } from 'react-native';
-
 const createAuction = async (formValues, token) => {
-  const formData = new FormData();
 
 
-
+  
   try {
     const response = await axios.post(
       'https://auction-online-iw6c.onrender.com/api/auctions', 
