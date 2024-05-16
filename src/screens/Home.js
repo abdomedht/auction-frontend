@@ -11,7 +11,9 @@ const Home = ({ navigation }) => {
     useEffect(() => {
         (async () => {
             try {
-                const response = await axiosInstance.get("auctions");
+                const response = await axiosInstance.get(
+                    "auctions?limit=15&page=1"
+                );
                 if (!response.data.error) {
                     setAuctions(response.data.data.auctions);
                     console.log(auctions[0]);
@@ -33,10 +35,10 @@ const Home = ({ navigation }) => {
                     navigation.navigate("search");
                 }}
             />
-            <BoxsContainer />
+            <BoxsContainer data={auctions.slice(0, 3)} />
             <FlatList
                 horizontal={true}
-                data={auctions}
+                data={auctions.slice(3, 15)}
                 keyExtractor={(item) => item._id}
                 renderItem={(item) => (
                     <BidBox
