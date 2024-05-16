@@ -1,14 +1,14 @@
 import React from "react";
 import { View, Image, StyleSheet, Text } from "react-native";
 import { scale, verticalScale } from "react-native-size-matters";
-export default function BoxLeft() {
+export default function BoxLeft({ dataLeft }) {
     return (
         <View style={styles.box}>
             <Image
                 style={styles.image}
-                source={require("../../assets/productImages/FB_IMG_1608891063790.jpg")}
+                source={{ uri: dataLeft.product.images[0] }}
             />
-            <Text style={styles.text}>prodduct name</Text>
+            <Text style={styles.text}>{dataLeft.product.name}</Text>
         </View>
     );
 }

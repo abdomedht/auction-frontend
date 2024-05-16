@@ -34,7 +34,7 @@ const AddAuction = () => {
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
         });
 
-        if (!pickerResult.cancelled) {
+        if (!pickerResult.canceled) {
             if (images.length < 3) {
                 setImages([...images, pickerResult.uri]);
                 setFieldValue("images", [...images, pickerResult.uri]); // Update Formik field value

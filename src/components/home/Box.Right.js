@@ -1,32 +1,29 @@
 import React from "react";
 import { View, Image, Text, StyleSheet } from "react-native";
-import { scale, verticalScale, moderateScale } from "react-native-size-matters";
+import { scale, verticalScale } from "react-native-size-matters";
 
-export default function BoxRight() {
+export default function BoxRight({ up, down }) {
     return (
         <View>
             <View>
                 <Image
                     style={styles.imageOne}
-                    source={require("../../assets/productImages/pexels-kenejd-spahiu-10914594.jpg")}
+                    source={{ uri: up.product.images[0] }}
                 />
-                <Text style={styles.text}>product name</Text>
+                <Text style={styles.text}>{up.product.name}</Text>
             </View>
             <View>
                 <Image
                     style={styles.imageOne}
-                    source={require("../../assets/productImages/mac/1_rombicamybookeclipcepclt-00304.jpg")}
+                    source={{ uri: down.product.images[0] }}
                 />
-                <Text style={styles.text}>product name</Text>
+                <Text style={styles.text}>{up.product.name}</Text>
             </View>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
-    box: {
-        // backgroundColor: "blue",
-    },
     imageOne: {
         height: verticalScale(150),
         width: scale(130),
