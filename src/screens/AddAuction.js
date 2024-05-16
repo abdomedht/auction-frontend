@@ -92,7 +92,6 @@ const AddAuction = () => {
             try {
               await createAuction(formData, token);
               Alert.alert('Success', 'Auction created successfully');
-
               resetForm();
               setImages([]);
             } catch (error) {
