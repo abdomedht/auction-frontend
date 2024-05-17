@@ -8,9 +8,9 @@ const AuctionRoom = ({ route }) => {
     console.log(data);
     return (
         <SafeAreaView style={styles.container}>
-            <ProductImages data={data} />
-            <ProductDesc data={data} />
-            <BiderBox />
+            {/* <ProductImages data={data} /> */}
+            {/* <ProductDesc data={data} /> */}
+            {/* <BiderBox /> */}
         </SafeAreaView>
     );
 };
