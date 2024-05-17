@@ -10,8 +10,8 @@ export default function BoxsContainer({ data }) {
     const dataRightDown = data[2];
     return (
         <View style={styles.containerBoxs}>
-            <BoxLeft dataLeft={dataLeft} />
-            <BoxRight up={dataRightUp} down={dataRightDown} />
+            {/* <BoxLeft dataLeft={dataLeft} /> */}
+            {/* <BoxRight up={dataRightUp} down={dataRightDown} /> */}
         </View>
     );
 }

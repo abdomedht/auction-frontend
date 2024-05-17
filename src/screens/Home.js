@@ -35,8 +35,8 @@ const Home = ({ navigation }) => {
                     navigation.navigate("search");
                 }}
             />
-            <BoxsContainer data={auctions.slice(0, 3)} />
-            <FlatList
+            {/* <BoxsContainer data={auctions.slice(0, 3)} /> */}
+            {/* <FlatList
                 horizontal={true}
                 data={auctions.slice(3, 15)}
                 keyExtractor={(item) => item._id}
@@ -49,7 +49,7 @@ const Home = ({ navigation }) => {
                         route={item.item}
                     />
                 )}
-            />
+            /> */}
         </SafeAreaView>
     );
 };

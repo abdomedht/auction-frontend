@@ -8,7 +8,7 @@ import {
     Image,
     ScrollView,
 } from "react-native";
-import { ScaledSheet, scale, verticalScale } from "react-native-size-matters";
+import { ScaledSheet } from "react-native-size-matters";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import * as ImagePicker from "expo-image-picker";
