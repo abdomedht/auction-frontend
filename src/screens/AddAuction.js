@@ -14,21 +14,20 @@ import * as Yup from 'yup';
 import * as ImagePicker from 'expo-image-picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import createAuction from '../api/create-auction';
+import { useSelector } from "react-redux";
 
 const AddAuction = () => {
   const [images, setImages] = useState([]);
   const [isStartPickerOpen, setStartPickerOpen] = useState(false);
   const [isEndPickerOpen, setEndPickerOpen] = useState(false);
-
+  const { token } = useSelector((state) => state.user);
   const handleImageUpload = async (setFieldValue) => {
     const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (permissionResult.granted === false) {
       Alert.alert('Permission Denied', 'Permission to access the camera roll is required!');
       return;
     }
-
     const pickerResult = await ImagePicker.launchImageLibraryAsync({ mediaTypes: ImagePicker.MediaTypeOptions.Images });
-
     if (!pickerResult.canceled) {
       if (images.length < 3) {
         const updatedImages = [...images, pickerResult.assets[0].uri];
@@ -69,8 +68,8 @@ const AddAuction = () => {
             endDate: new Date(),
           }}
           validationSchema={validationSchema}
-          onSubmit={async (values, { resetForm }) => {
-            const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXIxQGdtLmNvbSIsImlkIjoiNjYzZWQzOTQ0MWU5ZGVmNzdlMDJkNDBiIiwiaWF0IjoxNzE1NjEyOTAwLCJleHAiOjE3MTgyMDQ5MDB9.seeIPu8Ll95zr3dTXOvELXHf4JMP6Ta-VPryhWriw6E';
+          onSubmit={async (values,{ resetForm }, ) => {
+            
             const formData = new FormData();
             formData.append('name', values.name);
             formData.append('description', values.description);
@@ -90,10 +89,14 @@ const AddAuction = () => {
             });
             console.log(formData.getAll('images'));
             try {
-              await createAuction(formData, token);
+              const res  =   await createAuction(formData, token );
               Alert.alert('Success', 'Auction created successfully');
               resetForm();
               setImages([]);
+              if(!res.data.error){
+                  
+              }
+
             } catch (error) {
               Alert.alert('Error', 'Failed to create auction. Please try again later.');
               console.error('Error creating auction:', error);
