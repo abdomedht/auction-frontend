@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, SafeAreaView, Alert, FlatList } from "react-native";
+import {
+    StyleSheet,
+    SafeAreaView,
+    Alert,
+    FlatList,
+    View,
+    Text,
+} from "react-native";
 import TopBarHome from "../components/home/TopBarHome";
 import axiosInstance from "../api/axiosConfig";
 import BoxsContainer from "../components/home/BoxsContainer";
@@ -16,7 +23,6 @@ const Home = ({ navigation }) => {
                 );
                 if (!response.data.error) {
                     setAuctions(response.data.data.auctions);
-                    console.log(auctions[0]);
                 } else {
                     Alert.alert(response.data.error);
                 }
@@ -25,9 +31,14 @@ const Home = ({ navigation }) => {
             }
         })();
     }, []);
-
-    console.log("from home");
-    console.log(auctions);
+    useEffect(() => {}, [auctions]);
+    if (auctions.length < 1) {
+        return (
+            <View>
+                <Text>loading</Text>
+            </View>
+        );
+    }
     return (
         <SafeAreaView style={styles.container}>
             <TopBarHome
@@ -35,21 +46,20 @@ const Home = ({ navigation }) => {
                     navigation.navigate("search");
                 }}
             />
-            {/* <BoxsContainer data={auctions.slice(0, 3)} /> */}
-            {/* <FlatList
+            <BoxsContainer data={auctions} />
+            <FlatList
                 horizontal={true}
-                data={auctions.slice(3, 15)}
+                data={auctions.slice(3, auctions.length)}
                 keyExtractor={(item) => item._id}
                 renderItem={(item) => (
                     <BidBox
                         handlePress={() => {
-                            navigation.navigate("AuctionRoom", item);
-                            // console.log(item.item._id);
+                            navigation.navigate("AuctionRoom", { item });
                         }}
-                        route={item.item}
+                        allData={item.item}
                     />
                 )}
-            /> */}
+            />
         </SafeAreaView>
     );
 };
