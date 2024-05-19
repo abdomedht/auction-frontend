@@ -3,7 +3,6 @@ import { View, Text, StyleSheet } from "react-native";
 import { scale, verticalScale } from "react-native-size-matters";
 import { useSelector } from "react-redux";
 export default function Messages({ msg }) {
-    console.log(msg);
     const { userId } = useSelector((state) => state.user);
     return (
         <View style={msg.sender._id === userId ? styles.view : styles.xView}>

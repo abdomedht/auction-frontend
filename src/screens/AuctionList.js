@@ -1,20 +1,20 @@
-import React from "react";
-import { StyleSheet, SafeAreaView, Text } from "react-native";
+import React, { useState, useEffect } from "react";
+import { StyleSheet, SafeAreaView, Text, Alert, View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import AuctionBox from "../components/AuctionBox";
 import Pluss from "../components/buttons/Pluss";
+import axiosInstance from "../api/axiosConfig";
 
 const AuctionList = ({ navigation }) => {
-    const [auctionList, setAuction] = useState([]);
+    const [auctionList, setAuction] = useState(null);
     useEffect(() => {
         (async () => {
             try {
                 const response = await axiosInstance.get(
-                    "auctions/user?limit=15&page=1"
+                    "auctions/users?limit=15&page=1"
                 );
                 if (!response.data.error) {
                     setAuction(response.data.data.auctions);
-                    console.log(response.data.data.auctions);
                 } else {
                     Alert.alert(response.data.error);
                 }
@@ -24,7 +24,7 @@ const AuctionList = ({ navigation }) => {
         })();
     }, []);
     useEffect(() => {}, [auctionList]);
-    if (auctionList.length < 1) {
+    if (!auctionList) {
         return (
             <View>
                 <Text>loading</Text>
@@ -36,11 +36,11 @@ const AuctionList = ({ navigation }) => {
             <Text style={styles.auctions}>Auctions </Text>
             <FlatList
                 data={auctionList}
-                keyExtractor={(item) => item.id}
-                renderItem={(item) => (
+                keyExtractor={(item) => item._id}
+                renderItem={({ item }) => (
                     <AuctionBox
                         openAuction={() => {
-                            navigation.navigate("AuctionRoom", { item });
+                            navigation.navigate("AuctionRoom", item);
                         }}
                         details={item}
                     />

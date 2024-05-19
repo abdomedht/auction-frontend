@@ -9,11 +9,8 @@ import {
 } from "react-native";
 
 export default function UserPallette({ route, openChat }) {
-    console.log("UserPallette");
-    console.log(route);
     return (
         <TouchableOpacity onPress={openChat} style={styles.contactItem}>
-            {/* <Image source={route.image} style={styles.contactImage} /> */}
             <View style={styles.contactDetails}>
                 <Text style={styles.contactName}>{route._id}</Text>
             </View>
