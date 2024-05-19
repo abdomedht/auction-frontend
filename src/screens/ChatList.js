@@ -36,7 +36,6 @@ const ChatList = ({ navigation }) => {
                     setChat(response.data.data.chatRooms);
                 } else {
                     Alert.alert(response.data.error);
-                    console.log(response.data.error);
                 }
             } catch (error) {
                 Alert.alert(error.message);

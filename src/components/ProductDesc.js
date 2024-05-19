@@ -1,5 +1,6 @@
 import React from "react";
 import { Text, View, StyleSheet } from "react-native";
+import { scale, verticalScale } from "react-native-size-matters";
 
 const ProductDesc = ({ data }) => {
     return (
@@ -7,10 +8,13 @@ const ProductDesc = ({ data }) => {
             <Text style={[styles.productName]}>{data.product.name}</Text>
             <Text
                 style={{
-                    paddingHorizontal: 20,
-                    paddingVertical: 10,
+                    paddingHorizontal: scale(20),
+                    paddingVertical: verticalScale(7),
                 }}>
                 {data.product.description}
+            </Text>
+            <Text style={styles.endDate}>
+                End in {data.endDate.split("T")[0]}
             </Text>
         </View>
     );
@@ -19,15 +23,23 @@ const ProductDesc = ({ data }) => {
 const styles = StyleSheet.create({
     desContainer: {
         backgroundColor: "#FFFFFF",
-        borderRadius: 15,
-        marginBottom: 20,
+        borderRadius: scale(15),
+        marginBottom: verticalScale(20),
     },
     productName: {
         fontWeight: "bold",
-        fontSize: 20,
+        fontSize: scale(20),
         justifyContent: "flex-start",
-        marginLeft: 20,
+        marginLeft: verticalScale(20),
         userSelect: "text",
+    },
+    endDate: {
+        fontWeight: "bold",
+        fontSize: scale(14),
+        justifyContent: "flex-start",
+        marginLeft: verticalScale(20),
+        userSelect: "text",
+        paddingBottom: verticalScale(7),
     },
 });
 export default ProductDesc;

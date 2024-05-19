@@ -16,8 +16,6 @@ const register = async (values) => {
             }
         );
         if (response.status === 201) {
-            // Typically, 201 indicates resource creation
-            console.log("Register Created Successfully:", response.data);
             Alert.alert(
                 "Register Created Successfully",
                 JSON.stringify(response.data)

@@ -55,10 +55,8 @@ export default function Chat({ route }) {
                 );
                 if (!response.data.error) {
                     setMessage(response.data.data.messages);
-                    console.log(messages);
                 } else {
                     Alert.alert(response.data.error);
-                    console.log(response.data.error);
                 }
             } catch (error) {
                 Alert.alert(error.message);

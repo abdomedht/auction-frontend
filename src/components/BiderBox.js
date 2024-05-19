@@ -1,43 +1,17 @@
 import React from "react";
 import { View, Text, StyleSheet, FlatList } from "react-native";
 
-const BIDERS = [
-    {
-        bider: "Beloo",
-        bid: "1000",
-    },
-    {
-        bider: "Sawy",
-        bid: "6030",
-    },
-    {
-        bider: "Asraf",
-        bid: "6000",
-    },
-    {
-        bider: "Abdo",
-        bid: "5040",
-    },
-    {
-        bider: "Madd",
-        bid: "7123",
-    },
-    {
-        bider: "Fer3on",
-        bid: "8123",
-    },
-];
-BIDERS.sort((a, b) => b.bid - a.bid);
-
-const BiderBox = () => {
+const BiderBox = ({ bids }) => {
     return (
         <FlatList
-            data={BIDERS}
-            keyExtractor={(item) => item.bid}
+            data={bids}
+            keyExtractor={(item) => item._id}
             renderItem={({ item }) => (
                 <View style={styles.biderBox}>
-                    <Text style={styles.textBid}>{item.bider}</Text>
-                    <Text style={styles.textBid}>${item.bid}</Text>
+                    <Text style={styles.textBid}>
+                        {item.buyer.firstName + " " + item.buyer.lastName}
+                    </Text>
+                    <Text style={styles.textBid}>{item.price} EGP</Text>
                 </View>
             )}
         />
