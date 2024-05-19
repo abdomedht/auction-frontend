@@ -3,6 +3,13 @@ import { View, Image, Text, StyleSheet } from "react-native";
 import { scale, verticalScale } from "react-native-size-matters";
 
 export default function BoxRight({ up, down }) {
+    if (!up || !up.product) {
+        return (
+            <View>
+                <Text> route is not exist:BoxRight</Text>
+            </View>
+        );
+    }
     return (
         <View>
             <View>
@@ -29,6 +36,7 @@ const styles = StyleSheet.create({
         width: scale(130),
         borderRadius: scale(15),
         marginTop: verticalScale(10),
+        resizeMode: "contain",
     },
     text: {
         fontSize: scale(15),

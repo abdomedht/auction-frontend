@@ -3,7 +3,6 @@ import axios from "axios";
 
 const axiosInstance = axios.create({
     baseURL: "https://auction-online-iw6c.onrender.com/api/",
-    timeout: 10000,
     headers: {
         "Content-Type": "application/json",
     },

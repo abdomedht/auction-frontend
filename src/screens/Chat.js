@@ -1,133 +1,120 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
-  View,
-  StyleSheet,
-  TextInput,
-  TouchableOpacity,
-  Text,
-  Image,
+    StyleSheet,
+    SafeAreaView,
+    ImageBackground,
+    Alert,
+    View,
+    Text,
+    FlatList,
 } from "react-native";
+import SendMessage from "../components/chat/SendMessage";
+import TopBar from "../components/chat/TopBar";
+import Messages from "../components/chat/Messages";
+import { io } from "socket.io-client";
+import { useSelector } from "react-redux";
+import axiosInstance from "../api/axiosConfig";
 
-const Chat = ({ navigation, route }) => {
-  const contact = route.params;
-  console.log(contact);
-  const [text, setText] = useState("");
-  const onSend = (newMessages = []) => {
-    // Handle sending messages
-  };
-  return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <TouchableOpacity
-          style={styles.backButton}
-          onPress={() => navigation.goBack()}
-        >
-          <Text style={styles.backButtonText}>{"< Back"}</Text>
-        </TouchableOpacity>
-        <View style={styles.userInfo}>
-          <Image style={styles.userImage} source={contact.image} />
-          <Text style={styles.userName}>{contact.name}</Text>
-        </View>
-      </View>
-      <View style={styles.chatMs}>{/* Messages go here */}</View>
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder="Type your message..."
-          onChangeText={(newText) => setText(newText)}
-          value={text}
-          multiline
-        />
-        <TouchableOpacity
-          style={styles.sendButton}
-          onPress={() =>
-            onSend([
-              { text: text, _id: 2, createdAt: new Date(), user: { _id: 1 } },
-            ])
-          }
-        >
-          <Text style={styles.sendButtonText}>Send</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
-  );
-};
+export default function Chat({ route }) {
+    const roomId = route.params._id;
+    const receiverName =
+        route.params.user2.firstName + " " + route.params.user2.lastName;
+    const { token, userId } = useSelector((state) => state.user);
+    const [messages, setMessage] = useState(null);
+    const [socket, setSocket] = useState(null);
+
+    useEffect(() => {
+        const socket = io("wss://auction-online-iw6c.onrender.com/chat", {
+            query: {
+                token: token,
+                chatRoomId: roomId,
+            },
+        });
+        socket.on("connect", () => {
+            console.log("connect");
+        });
+        socket.on("message", (msg) => {
+            setMessage((prev) => [...prev, msg]);
+        });
+        socket.on("disconnect", () => {
+            console.log(" disconnected");
+        });
+        socket.on("erorr", () => {
+            console.log(" erorr");
+        });
+        setSocket(socket);
+        return () => {
+            socket.disconnect();
+        };
+    }, []);
+    useEffect(() => {
+        (async () => {
+            try {
+                const response = await axiosInstance.get(
+                    `messages/chat-rooms/${roomId}?limit=15&page=1`
+                );
+                if (!response.data.error) {
+                    setMessage(response.data.data.messages);
+                    console.log(messages);
+                } else {
+                    Alert.alert(response.data.error);
+                    console.log(response.data.error);
+                }
+            } catch (error) {
+                Alert.alert(error.message);
+            }
+        })();
+    }, []);
+    useEffect(() => {}, [messages]);
+    if (!messages) {
+        return (
+            <View>
+                <Text>loading</Text>
+            </View>
+        );
+    }
+    return (
+        <SafeAreaView style={styles.container}>
+            <TopBar style={styles.top} user={receiverName} />
+            <ImageBackground
+                style={styles.image}
+                source={require("../assets/official-whatsapp-background-image.png")}
+                resizeMode="cover">
+                <FlatList
+                    data={messages}
+                    keyExtractor={(item) => item._id}
+                    renderItem={(item) => <Messages msg={item.item} />}
+                />
+                <SendMessage
+                    style={styles.input}
+                    socket={socket}
+                    sender={userId}
+                    chatRoomId={roomId}
+                />
+            </ImageBackground>
+        </SafeAreaView>
+    );
+}
 
 const styles = StyleSheet.create({
-  chatMs: {
-    flex: 6,
-    backgroundColor: "#000000",
-  },
-
-  container: {
-    flex: 1,
-    width: "100%",
-    height: "100%",
-    flexDirection: "column",
-    justifyContent: "space-between",
-    backgroundColor: "#ccc",
-  },
-
-  header: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: 5,
-    marginTop: 25,
-    height: "40",
-    backgroundColor: "#F7F7FC",
-
-    justifyContent: "flex-start",
-    overflow: "None",
-  },
-  backButton: {
-    padding: 10,
-  },
-  backButtonText: {
-    color: "#000000",
-  },
-  userInfo: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  userImage: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    marginRight: 10,
-  },
-  userName: {
-    color: "#000000",
-    fontWeight: "bold",
-  },
-  inputContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    padding: 10,
-    borderTopWidth: 1,
-    borderTopColor: "#ccc",
-    backgroundColor: "#fff",
-  },
-  input: {
-    flex: 1,
-    height: 40,
-    borderColor: "#fff",
-    borderWidth: 1,
-    borderRadius: 20,
-    paddingHorizontal: 10,
-    marginRight: 10,
-    backgroundColor: "#F7F7FC",
-  },
-  sendButton: {
-    backgroundColor: "#FF5500",
-    borderRadius: 20,
-    paddingVertical: 10,
-    paddingHorizontal: 15,
-  },
-  sendButtonText: {
-    color: "#fff",
-    fontWeight: "bold",
-  },
+    container: {
+        flex: 1,
+    },
+    top: {
+        justifyContent: "flex-start",
+    },
+    image: {
+        flex: 1,
+        justifyContent: "flex-end",
+    },
+    sendButton: {
+        backgroundColor: "#FF5500",
+        borderRadius: 20,
+        paddingVertical: 10,
+        paddingHorizontal: 15,
+    },
+    sendButtonText: {
+        color: "#fff",
+        fontWeight: "bold",
+    },
 });
-
-export default Chat;

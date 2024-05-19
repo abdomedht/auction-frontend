@@ -2,19 +2,21 @@ import React from "react";
 import { scale, verticalScale } from "react-native-size-matters";
 import { StyleSheet, TouchableOpacity, Image, Text, View } from "react-native";
 
-export default function BidBox({ handlePress, route }) {
-    console.log("from BidBox");
-    console.log(route);
-    // const data = route.item;
+export default function BidBox({ allData }) {
+    const start = allData.startDate.split("T")[0];
     return (
-        <TouchableOpacity style={[styles.boxHorizontal]} onPress={handlePress}>
+        <TouchableOpacity style={[styles.boxHorizontal]}>
             <Image
-                source={require("../../assets/productImages/FB_IMG_1608891063790.jpg")}
                 style={styles.productImageList}
+                source={{
+                    uri: allData.product.images[0],
+                }}
             />
-            <Text style={{ fontSize: 12, paddingTop: 10 }}>BidBox</Text>
+            <Text style={{ fontSize: scale(14), paddingTop: scale(10) }}>
+                {allData.product.name}
+            </Text>
             <View>
-                <Text style={styles.text}>Starts in:{route.startDate}</Text>
+                <Text style={styles.text}>Starts in: {start}</Text>
             </View>
         </TouchableOpacity>
     );
@@ -23,14 +25,14 @@ export default function BidBox({ handlePress, route }) {
 const styles = StyleSheet.create({
     text: {
         paddingTop: verticalScale(5),
-        fontSize: scale(14),
-        fontWeight: "bold",
+        fontSize: scale(12),
+        fontWeight: "100",
     },
     productImageList: {
-        flexGrow: 1,
-        maxHeight: 100,
-        maxWidth: 140,
-        borderRadius: 5,
+        marginTop: verticalScale(6),
+        minHeight: verticalScale(120),
+        minWidth: scale(140),
+        borderRadius: scale(15),
     },
     boxHorizontal: {
         alignItems: "center",

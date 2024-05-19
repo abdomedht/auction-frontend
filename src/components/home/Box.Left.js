@@ -6,7 +6,7 @@ export default function BoxLeft({ dataLeft }) {
         <View style={styles.box}>
             <Image
                 style={styles.image}
-                source={{ uri: dataLeft.product.images[0] }}
+                source={{ uri: dataLeft.product.images[2] }}
             />
             <Text style={styles.text}>{dataLeft.product.name}</Text>
         </View>
@@ -22,6 +22,7 @@ const styles = StyleSheet.create({
         height: verticalScale(320),
         width: scale(200),
         borderRadius: scale(15),
+        resizeMode: "stretch",
     },
     text: {
         fontSize: scale(15),
