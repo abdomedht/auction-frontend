@@ -24,7 +24,7 @@ export default function BoxRight({ up, down }) {
                     style={styles.imageOne}
                     source={{ uri: down.product.images[0] }}
                 />
-                <Text style={styles.text}>{up.product.name}</Text>
+                <Text style={styles.text}>{down.product.name}</Text>
             </View>
         </View>
     );

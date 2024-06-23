@@ -13,8 +13,3 @@ export default function App() {
         </Provider>
     );
 }
-{
-    // import { persistor } from "./src/store/store";
-    // import { PersistGate } from "redux-persist/integration/react";
-    /* <PersistGate persistor={persistor}></PersistGate> */
-}

@@ -2,7 +2,7 @@ import React from "react";
 import { TouchableOpacity } from "react-native";
 import { Text, View, StyleSheet } from "react-native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import { scale, verticalScale, moderateScale } from "react-native-size-matters";
+import { scale, verticalScale } from "react-native-size-matters";
 const TopBarHome = ({ handlePress }) => {
     return (
         <View style={styles.container}>

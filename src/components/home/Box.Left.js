@@ -6,13 +6,13 @@ export default function BoxLeft({ dataLeft }) {
         <View style={styles.box}>
             <Image
                 style={styles.image}
-                source={{ uri: dataLeft.product.images[2] }}
+                source={{ uri: dataLeft.product.images[0] }}
             />
             <Text style={styles.text}>{dataLeft.product.name}</Text>
         </View>
     );
 }
-
+// token // id pass  email
 const styles = StyleSheet.create({
     box: {
         justifyContent: "center",

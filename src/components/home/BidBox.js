@@ -2,10 +2,10 @@ import React from "react";
 import { scale, verticalScale } from "react-native-size-matters";
 import { StyleSheet, TouchableOpacity, Image, Text, View } from "react-native";
 
-export default function BidBox({ allData }) {
+export default function BidBox({ allData, handlePress }) {
     const start = allData.startDate.split("T")[0];
     return (
-        <TouchableOpacity style={[styles.boxHorizontal]}>
+        <TouchableOpacity onPress={handlePress} style={[styles.boxHorizontal]}>
             <Image
                 style={styles.productImageList}
                 source={{

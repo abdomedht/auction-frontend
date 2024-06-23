@@ -14,6 +14,8 @@ import Messages from "../components/chat/Messages";
 import { io } from "socket.io-client";
 import { useSelector } from "react-redux";
 import axiosInstance from "../api/axiosConfig";
+import * as Animatable from "react-native-animatable";
+import { ActivityIndicator } from "react-native";
 
 export default function Chat({ route }) {
     const roomId = route.params._id;
@@ -31,15 +33,18 @@ export default function Chat({ route }) {
             },
         });
         socket.on("connect", () => {
+            // the current user state is online
             console.log("connect");
         });
         socket.on("message", (msg) => {
             setMessage((prev) => [...prev, msg]);
         });
         socket.on("disconnect", () => {
+            // the current user state is online
             console.log(" disconnected");
         });
         socket.on("erorr", () => {
+            // failed connect with server
             console.log(" erorr");
         });
         setSocket(socket);
@@ -66,9 +71,19 @@ export default function Chat({ route }) {
     useEffect(() => {}, [messages]);
     if (!messages) {
         return (
-            <View>
-                <Text>loading</Text>
-            </View>
+            <SafeAreaView
+                style={{
+                    flex: 1,
+                    alignItems: "center",
+                    justifyContent: "center",
+                }}>
+                <Animatable.View
+                    animation="rotate"
+                    iterationCount="infinite"
+                    duration={800}>
+                    <ActivityIndicator size="large" color="#FF5500" />
+                </Animatable.View>
+            </SafeAreaView>
         );
     }
     return (
@@ -83,13 +98,13 @@ export default function Chat({ route }) {
                     keyExtractor={(item) => item._id}
                     renderItem={(item) => <Messages msg={item.item} />}
                 />
-                <SendMessage
-                    style={styles.input}
-                    socket={socket}
-                    sender={userId}
-                    chatRoomId={roomId}
-                />
             </ImageBackground>
+            <SendMessage
+                style={styles.input}
+                socket={socket}
+                sender={userId}
+                chatRoomId={roomId}
+            />
         </SafeAreaView>
     );
 }

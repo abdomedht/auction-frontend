@@ -5,8 +5,8 @@ import BoxRight from "./Box.Right";
 import { scale, verticalScale } from "react-native-size-matters";
 
 export default function BoxsContainer({ data }) {
-    const dataLeft = data[0];
-    const dataRightUp = data[1];
+    const dataLeft = data[1];
+    const dataRightUp = data[0];
     const dataRightDown = data[2];
     return (
         <View style={styles.containerBoxs}>
