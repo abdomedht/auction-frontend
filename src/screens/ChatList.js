@@ -10,6 +10,8 @@ import {
     Alert,
 } from "react-native";
 import axiosInstance from "../api/axiosConfig";
+import * as Animatable from "react-native-animatable";
+import { ActivityIndicator } from "react-native";
 const ContactItem = ({ contact, handlePress }) => (
     <TouchableOpacity style={styles.contactItem} onPress={handlePress}>
         <Image
@@ -45,9 +47,19 @@ const ChatList = ({ navigation }) => {
     useEffect(() => {}, [chatRooms]);
     if (chatRooms.length < 1) {
         return (
-            <View>
-                <Text>loading</Text>
-            </View>
+            <SafeAreaView
+                style={{
+                    flex: 1,
+                    alignItems: "center",
+                    justifyContent: "center",
+                }}>
+                <Animatable.View
+                    animation="rotate"
+                    iterationCount="infinite"
+                    duration={800}>
+                    <ActivityIndicator size="large" color="#FF5500" />
+                </Animatable.View>
+            </SafeAreaView>
         );
     }
     return (

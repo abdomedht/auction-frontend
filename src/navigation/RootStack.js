@@ -11,11 +11,6 @@ export default (RootStackNav) => {
                 component={MainStackNav}
                 options={{ headerShown: false }}
             />
-            <RootStack.Screen
-                name="search"
-                component={Search}
-                options={{ headerShown: false }}
-            />
         </RootStack.Navigator>
     );
 };

@@ -1,19 +1,15 @@
 import React, { useState, useEffect } from "react";
-import {
-    StyleSheet,
-    SafeAreaView,
-    Alert,
-    FlatList,
-    View,
-    Text,
-} from "react-native";
+import { StyleSheet, SafeAreaView, Alert, FlatList } from "react-native";
 import TopBarHome from "../components/home/TopBarHome";
 import axiosInstance from "../api/axiosConfig";
 import BoxsContainer from "../components/home/BoxsContainer";
 import BidBox from "../components/home/BidBox";
-console.log("executed Home");
+import * as Animatable from "react-native-animatable";
+import { ActivityIndicator } from "react-native";
+import Search from "./Search.Modal";
 
 const Home = ({ navigation }) => {
+    const [modalVis, setModalVis] = useState(false);
     const [auctions, setAuctions] = useState([]);
     useEffect(() => {
         (async () => {
@@ -34,16 +30,32 @@ const Home = ({ navigation }) => {
     useEffect(() => {}, [auctions]);
     if (auctions.length < 1) {
         return (
-            <View>
-                <Text>loading</Text>
-            </View>
+            <SafeAreaView
+                style={{
+                    flex: 1,
+                    justifyContent: "center",
+                    alignItems: "center",
+                }}>
+                <Animatable.View
+                    animation="rotate"
+                    iterationCount="infinite"
+                    duration={800}>
+                    <ActivityIndicator size="large" color="#FF5500" />
+                </Animatable.View>
+            </SafeAreaView>
         );
     }
     return (
         <SafeAreaView style={styles.container}>
             <TopBarHome
                 handlePress={() => {
-                    navigation.navigate("search");
+                    setModalVis(true);
+                }}
+            />
+            <Search
+                vis={modalVis}
+                onRequest={() => {
+                    setModalVis(false);
                 }}
             />
             <BoxsContainer data={auctions} />
@@ -63,6 +75,7 @@ const Home = ({ navigation }) => {
         </SafeAreaView>
     );
 };
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
