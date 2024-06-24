@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, SafeAreaView, Text, Alert, View } from "react-native";
+import { StyleSheet, SafeAreaView, Text, Alert } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import AuctionBox from "../components/AuctionBox";
 import Pluss from "../components/buttons/Pluss";
 import axiosInstance from "../api/axiosConfig";
+import * as Animatable from "react-native-animatable";
+import { ActivityIndicator } from "react-native";
 
 const AuctionList = ({ navigation }) => {
     const [auctionList, setAuction] = useState(null);
@@ -26,9 +28,19 @@ const AuctionList = ({ navigation }) => {
     useEffect(() => {}, [auctionList]);
     if (!auctionList) {
         return (
-            <View>
-                <Text>loading</Text>
-            </View>
+            <SafeAreaView
+                style={{
+                    flex: 1,
+                    justifyContent: "center",
+                    alignItems: "center",
+                }}>
+                <Animatable.View
+                    animation="rotate"
+                    iterationCount="infinite"
+                    duration={800}>
+                    <ActivityIndicator size="large" color="#FF5500" />
+                </Animatable.View>
+            </SafeAreaView>
         );
     }
     return (

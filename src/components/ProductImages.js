@@ -1,24 +1,41 @@
 import React from "react";
-import { View, Image, StyleSheet } from "react-native";
+import {
+    View,
+    Image,
+    StyleSheet,
+    TouchableOpacity,
+    SafeAreaView,
+} from "react-native";
 import { scale, verticalScale } from "react-native-size-matters";
-const ProductImages = ({ data }) => {
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+
+const ProductImages = ({ data, handlePress }) => {
     return (
-        <View style={styles.imageContainer}>
-            <Image
-                source={{ uri: data.product.images[0] }}
-                style={styles.bigImage}
-            />
-            <View style={styles.smallImages}>
-                <Image
-                    source={{ uri: data.product.images[1] }}
-                    style={styles.smallImage}
+        <SafeAreaView>
+            <TouchableOpacity style={styles.btn} onPress={handlePress}>
+                <MaterialCommunityIcons
+                    name="arrow-left-bold-circle"
+                    color={"#FF5500"}
+                    size={scale(30)}
                 />
+            </TouchableOpacity>
+            <View style={styles.imageContainer}>
                 <Image
-                    source={{ uri: data.product.images[2] }}
-                    style={styles.smallImage}
+                    source={{ uri: data.product.images[0] }}
+                    style={styles.bigImage}
                 />
+                <View style={styles.smallImages}>
+                    <Image
+                        source={{ uri: data.product.images[1] }}
+                        style={styles.smallImage}
+                    />
+                    <Image
+                        source={{ uri: data.product.images[2] }}
+                        style={styles.smallImage}
+                    />
+                </View>
             </View>
-        </View>
+        </SafeAreaView>
     );
 };
 const styles = StyleSheet.create({
@@ -27,12 +44,12 @@ const styles = StyleSheet.create({
         backgroundColor: "#fff",
         justifyContent: "space-between",
         paddingHorizontal: scale(7),
-        borderRadius: 15,
-        marginTop: verticalScale(40),
+        borderRadius: scale(15),
         marginBottom: verticalScale(10),
+        height: verticalScale(300),
+        padding: scale(10),
     },
     bigImage: {
-        marginTop: verticalScale(6),
         height: verticalScale(280),
         width: scale(200),
         borderRadius: scale(15),
@@ -40,14 +57,19 @@ const styles = StyleSheet.create({
     },
     smallImages: {
         justifyContent: "space-between",
-        marginHorizontal: 25,
     },
     smallImage: {
         height: verticalScale(140),
         width: scale(130),
         borderRadius: scale(15),
-        marginTop: verticalScale(10),
-        resizeMode: "contain",
+        resizeMode: "stretch",
+    },
+    btn: {
+        marginTop: verticalScale(30),
+        width: scale(35),
+        height: verticalScale(30),
+        padding: scale(2),
+        marginLeft: scale(5),
     },
 });
 export default ProductImages;

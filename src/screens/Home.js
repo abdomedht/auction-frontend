@@ -58,17 +58,28 @@ const Home = ({ navigation }) => {
                     setModalVis(false);
                 }}
             />
-            <BoxsContainer data={auctions} />
+            <BoxsContainer
+                data={auctions}
+                leftPress={() => {
+                    navigation.navigate("AuctionRoom", auctions[0]);
+                }}
+                topRightPress={() => {
+                    navigation.navigate("AuctionRoom", auctions[1]);
+                }}
+                buttomRightPress={() => {
+                    navigation.navigate("AuctionRoom", auctions[2]);
+                }}
+            />
             <FlatList
                 horizontal={true}
                 data={auctions.slice(3, auctions.length)}
                 keyExtractor={(item) => item._id}
-                renderItem={(item) => (
+                renderItem={({ item }) => (
                     <BidBox
                         handlePress={() => {
-                            navigation.navigate("AuctionRoom", { item });
+                            navigation.navigate("AuctionRoom", item);
                         }}
-                        allData={item.item}
+                        allData={item}
                     />
                 )}
             />
