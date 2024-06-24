@@ -1,8 +1,13 @@
 import React from "react";
-import { View, Image, Text, StyleSheet } from "react-native";
+import { View, Image, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { scale, verticalScale } from "react-native-size-matters";
 
-export default function BoxRight({ up, down }) {
+export default function BoxRight({
+    up,
+    down,
+    buttomRightPress,
+    topRightPress,
+}) {
     if (!up || !up.product) {
         return (
             <View>
@@ -12,20 +17,20 @@ export default function BoxRight({ up, down }) {
     }
     return (
         <View>
-            <View>
+            <TouchableOpacity onPress={topRightPress}>
                 <Image
                     style={styles.imageOne}
                     source={{ uri: up.product.images[0] }}
                 />
-                <Text style={styles.text}>{up.product.name}</Text>
-            </View>
-            <View>
+            </TouchableOpacity>
+            <Text style={styles.text}>{up.product.name}</Text>
+            <TouchableOpacity onPress={buttomRightPress}>
                 <Image
                     style={styles.imageOne}
                     source={{ uri: down.product.images[0] }}
                 />
-                <Text style={styles.text}>{down.product.name}</Text>
-            </View>
+            </TouchableOpacity>
+            <Text style={styles.text}>{down.product.name}</Text>
         </View>
     );
 }
@@ -34,9 +39,9 @@ const styles = StyleSheet.create({
     imageOne: {
         height: verticalScale(150),
         width: scale(130),
-        borderRadius: scale(15),
+        borderRadius: scale(20),
         marginTop: verticalScale(10),
-        resizeMode: "contain",
+        resizeMode: "stretch",
     },
     text: {
         fontSize: scale(15),

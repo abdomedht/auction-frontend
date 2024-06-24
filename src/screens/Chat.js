@@ -17,7 +17,7 @@ import axiosInstance from "../api/axiosConfig";
 import * as Animatable from "react-native-animatable";
 import { ActivityIndicator } from "react-native";
 
-export default function Chat({ route }) {
+export default function Chat({ route, navigation }) {
     const roomId = route.params._id;
     const receiverName =
         route.params.user2.firstName + " " + route.params.user2.lastName;
@@ -88,7 +88,11 @@ export default function Chat({ route }) {
     }
     return (
         <SafeAreaView style={styles.container}>
-            <TopBar style={styles.top} user={receiverName} />
+            <TopBar
+                style={styles.top}
+                user={receiverName}
+                handlePress={() => navigation.goBack()}
+            />
             <ImageBackground
                 style={styles.image}
                 source={require("../assets/official-whatsapp-background-image.png")}

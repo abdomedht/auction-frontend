@@ -4,9 +4,6 @@ const initialState = {
     token: null,
     userId: null,
 };
-// int x =0 ;
-// " x is : " + x
-//  ` srirbviu ${count}`
 export const userSlice = createSlice({
     name: "user",
     initialState,

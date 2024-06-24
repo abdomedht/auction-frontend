@@ -2,12 +2,10 @@ import React from "react";
 import { View, StyleSheet, TouchableOpacity, Text, Image } from "react-native";
 import { scale, verticalScale } from "react-native-size-matters";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-export default function TopBar({ navigation, user }) {
+export default function TopBar({ handlePress, user }) {
     return (
         <View style={styles.header}>
-            <TouchableOpacity
-                style={styles.backButton}
-                onPress={() => navigation.goBack()}>
+            <TouchableOpacity style={styles.backButton} onPress={handlePress}>
                 <MaterialCommunityIcons
                     name="arrow-left"
                     color={"#FF5500"}
