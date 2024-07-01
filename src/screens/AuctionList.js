@@ -34,6 +34,8 @@ const AuctionList = ({ navigation }) => {
                     justifyContent: "center",
                     alignItems: "center",
                 }}>
+                {/* <Pluss handlePress={() => navigation.navigate("AddAuction")} /> */}
+
                 <Animatable.View
                     animation="rotate"
                     iterationCount="infinite"

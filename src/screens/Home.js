@@ -10,15 +10,17 @@ import Search from "./Search.Modal";
 
 const Home = ({ navigation }) => {
     const [modalVis, setModalVis] = useState(false);
-    const [auctions, setAuctions] = useState([]);
+    const [runningAuctions, setRunningAuctions] = useState([]);
+    const [pendingAuctions, setPendinggAuctions] = useState([]);
     useEffect(() => {
         (async () => {
             try {
                 const response = await axiosInstance.get(
-                    "auctions?limit=15&page=1"
+                    "auctions?status=running"
                 );
                 if (!response.data.error) {
-                    setAuctions(response.data.data.auctions);
+                    setRunningAuctions(response.data.data.auctions);
+                    // console.log(response.data.data);
                 } else {
                     Alert.alert(response.data.error);
                 }
@@ -27,8 +29,25 @@ const Home = ({ navigation }) => {
             }
         })();
     }, []);
-    useEffect(() => {}, [auctions]);
-    if (auctions.length < 1) {
+    useEffect(() => {
+        (async () => {
+            try {
+                const response = await axiosInstance.get(
+                    "auctions?status=pending"
+                );
+                if (!response.data.error) {
+                    setPendinggAuctions(response.data.data.auctions);
+                    // console.log(pendingAuctions.length);
+                } else {
+                    Alert.alert(response.data.error);
+                }
+            } catch (error) {
+                Alert.alert(error);
+            }
+        })();
+    }, []);
+    // useEffect(() => {}, [runningAuctions]);
+    if (runningAuctions.length < 1) {
         return (
             <SafeAreaView
                 style={{
@@ -59,20 +78,20 @@ const Home = ({ navigation }) => {
                 }}
             />
             <BoxsContainer
-                data={auctions}
+                data={runningAuctions}
                 leftPress={() => {
-                    navigation.navigate("AuctionRoom", auctions[0]);
+                    navigation.navigate("AuctionRoom", runningAuctions[0]);
                 }}
                 topRightPress={() => {
-                    navigation.navigate("AuctionRoom", auctions[1]);
+                    navigation.navigate("AuctionRoom", runningAuctions[1]);
                 }}
                 buttomRightPress={() => {
-                    navigation.navigate("AuctionRoom", auctions[2]);
+                    navigation.navigate("AuctionRoom", runningAuctions[2]);
                 }}
             />
             <FlatList
                 horizontal={true}
-                data={auctions.slice(3, auctions.length)}
+                data={pendingAuctions}
                 keyExtractor={(item) => item._id}
                 renderItem={({ item }) => (
                     <BidBox

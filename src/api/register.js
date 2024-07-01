@@ -22,6 +22,8 @@ const register = async (values) => {
             );
             return response; // Return the created resource or response data
         } else if (response.status === 400) {
+            console.log("from try");
+            console.log(response.status);
             Alert.alert("Register Failed", "Email already exists");
         } else if (response.status >= 500) {
             Alert.alert("Server Error", "Please try again later");
@@ -31,6 +33,8 @@ const register = async (values) => {
             // Error response from the server
             const status = error.response.status;
             if (status === 400) {
+                console.log("from catch");
+                console.log(status);
                 Alert.alert("Register Failed", "Email already exists ");
             } else if (status >= 500) {
                 // Server-side error

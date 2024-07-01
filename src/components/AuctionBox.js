@@ -5,7 +5,7 @@ const AuctionBox = ({ openAuction, details }) => {
     return (
         <TouchableOpacity onPress={openAuction}>
             <View style={styles.boxAuction}>
-                <Text style={styles.textBid}>{details.product.name}</Text>
+                <Text style={styles.textBid}>{details.name}</Text>
                 <Text style={styles.textBid}>{details.status}</Text>
             </View>
         </TouchableOpacity>

@@ -4,8 +4,6 @@ import {
     SafeAreaView,
     ImageBackground,
     Alert,
-    View,
-    Text,
     FlatList,
 } from "react-native";
 import SendMessage from "../components/chat/SendMessage";
@@ -40,8 +38,7 @@ export default function Chat({ route, navigation }) {
             setMessage((prev) => [...prev, msg]);
         });
         socket.on("disconnect", () => {
-            // the current user state is online
-            console.log(" disconnected");
+            console.log("disconnected");
         });
         socket.on("erorr", () => {
             // failed connect with server
@@ -56,7 +53,7 @@ export default function Chat({ route, navigation }) {
         (async () => {
             try {
                 const response = await axiosInstance.get(
-                    `messages/chat-rooms/${roomId}?limit=15&page=1`
+                    `messages/chat-rooms/${roomId}?limit=20&page=4`
                 );
                 if (!response.data.error) {
                     setMessage(response.data.data.messages);
@@ -100,15 +97,15 @@ export default function Chat({ route, navigation }) {
                 <FlatList
                     data={messages}
                     keyExtractor={(item) => item._id}
-                    renderItem={(item) => <Messages msg={item.item} />}
+                    renderItem={({ item }) => <Messages msg={item} />}
+                />
+                <SendMessage
+                    style={styles.input}
+                    socket={socket}
+                    sender={userId}
+                    chatRoomId={roomId}
                 />
             </ImageBackground>
-            <SendMessage
-                style={styles.input}
-                socket={socket}
-                sender={userId}
-                chatRoomId={roomId}
-            />
         </SafeAreaView>
     );
 }
@@ -117,21 +114,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
-    top: {
-        justifyContent: "flex-start",
-    },
     image: {
         flex: 1,
-        justifyContent: "flex-end",
-    },
-    sendButton: {
-        backgroundColor: "#FF5500",
-        borderRadius: 20,
-        paddingVertical: 10,
-        paddingHorizontal: 15,
-    },
-    sendButtonText: {
-        color: "#fff",
-        fontWeight: "bold",
     },
 });

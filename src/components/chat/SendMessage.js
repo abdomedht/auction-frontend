@@ -1,10 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-    SafeAreaView,
-    StyleSheet,
-    TextInput,
-    TouchableOpacity,
-} from "react-native";
+import { View, StyleSheet, TextInput, TouchableOpacity } from "react-native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { scale, verticalScale } from "react-native-size-matters";
 
@@ -12,7 +7,7 @@ export default function SendMessage({ socket, sender, chatRoomId }) {
     const [content, setContent] = useState("");
     useEffect(() => {}, [content]);
     return (
-        <SafeAreaView style={styles.input}>
+        <View style={styles.container}>
             <TextInput
                 style={styles.textInput}
                 placeholder="Type your message..."
@@ -23,6 +18,7 @@ export default function SendMessage({ socket, sender, chatRoomId }) {
                 value={content}
             />
             <TouchableOpacity
+                style={styles.icon}
                 onPress={() => {
                     if (socket && socket.connected && content.length > 0) {
                         socket.emit("message", {
@@ -36,34 +32,27 @@ export default function SendMessage({ socket, sender, chatRoomId }) {
                 <MaterialCommunityIcons
                     name="send"
                     color={"#FF5500"}
-                    size={28}
-                    style={styles.icon}
+                    size={30}
                 />
             </TouchableOpacity>
-        </SafeAreaView>
+        </View>
     );
 }
 
 const styles = StyleSheet.create({
-    input: {
-        flex: 1,
-        justifyContent: "space-between",
+    container: {
+        justifyContent: "space-evenly",
         flexDirection: "row",
-        marginVertical: scale(10),
-        marginHorizontal: scale(10),
-        borderTopWidth: scale(1),
-        backgroundColor: "#fff",
-        borderTopColor: "#ccc",
-        width: "100%",
-        height: verticalScale(60),
-        borderRadius: scale(15),
         padding: scale(10),
     },
     icon: {
-        // justifyContent: "flex-end",
-        // marginLeft: scale(5),
+        alignSelf: "center",
     },
     textInput: {
-        height: verticalScale(50),
+        height: verticalScale(40),
+        backgroundColor: "#fff",
+        borderRadius: scale(15),
+        padding: scale(7),
+        width: "86%",
     },
 });
