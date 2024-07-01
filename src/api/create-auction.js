@@ -11,6 +11,7 @@ const createAuction = async (formValues, token) => {
                 },
             }
         );
+        console.log(response);
         return response;
     } catch (error) {
         console.error("Error creating auction:", error);

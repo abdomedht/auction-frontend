@@ -21,16 +21,16 @@ const ProductImages = ({ data, handlePress }) => {
             </TouchableOpacity>
             <View style={styles.imageContainer}>
                 <Image
-                    source={{ uri: data.product.images[0] }}
+                    source={{ uri: data.images[0] }}
                     style={styles.bigImage}
                 />
                 <View style={styles.smallImages}>
                     <Image
-                        source={{ uri: data.product.images[1] }}
+                        source={{ uri: data.images[1] }}
                         style={styles.smallImage}
                     />
                     <Image
-                        source={{ uri: data.product.images[2] }}
+                        source={{ uri: data.images[2] }}
                         style={styles.smallImage}
                     />
                 </View>
@@ -70,6 +70,7 @@ const styles = StyleSheet.create({
         height: verticalScale(30),
         padding: scale(2),
         marginLeft: scale(5),
+        marginBottom: verticalScale(5),
     },
 });
 export default ProductImages;

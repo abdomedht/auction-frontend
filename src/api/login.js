@@ -7,10 +7,12 @@ const handleLogin = async (values) => {
         if (!response.data.error) {
             return response.data.data;
         } else {
+            console.log(response.data.error);
             Alert.alert(response.data.error);
             return null;
         }
     } catch (error) {
+        console.log(error.message);
         Alert.alert(error.message);
         return null;
     }

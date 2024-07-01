@@ -7,10 +7,10 @@ export default function BoxLeft({ dataLeft, leftPress }) {
             <TouchableOpacity onPress={leftPress}>
                 <Image
                     style={styles.image}
-                    source={{ uri: dataLeft.product.images[0] }}
+                    source={{ uri: dataLeft.images[0] }}
                 />
             </TouchableOpacity>
-            <Text style={styles.text}>{dataLeft.product.name}</Text>
+            <Text style={styles.text}>{dataLeft.name}</Text>
         </View>
     );
 }

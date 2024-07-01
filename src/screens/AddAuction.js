@@ -112,6 +112,7 @@ const AddAuction = ({ navigation }) => {
                             );
                             resetForm();
                             setImages([]);
+                            // console.log(res);
                             if (!res.data.error) {
                                 navigation.navigate("HomeTabs");
                             }
@@ -120,7 +121,10 @@ const AddAuction = ({ navigation }) => {
                                 "Error",
                                 "Failed to create auction. Please try again later."
                             );
-                            console.error("Error creating auction:", error);
+                            console.error(
+                                "Error creating auction:",
+                                error.message
+                            );
                         }
                     }}>
                     {({

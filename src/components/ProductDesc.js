@@ -5,13 +5,13 @@ import { scale, verticalScale } from "react-native-size-matters";
 const ProductDesc = ({ data }) => {
     return (
         <View style={styles.desContainer}>
-            <Text style={[styles.productName]}>{data.product.name}</Text>
+            <Text style={[styles.productName]}>{data.name}</Text>
             <Text
                 style={{
                     paddingHorizontal: scale(20),
                     paddingVertical: verticalScale(7),
                 }}>
-                {data.product.description}
+                {data.description}
             </Text>
             <Text style={styles.endDate}>
                 End in {data.endDate.split("T")[0]}

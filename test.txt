@@ -1,3 +1,202 @@
+
+
+
+
+
+
+
+
+
+
+
+{
+    import React, { useEffect, useState } from "react";
+import {
+    View,
+    StyleSheet,
+    TextInput,
+    TouchableOpacity,
+    Keyboard,
+} from "react-native";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import { scale, verticalScale } from "react-native-size-matters";
+export default function SendBid({ socket, buyerId, auctionId }) {
+    const [content, setContent] = useState("");
+    useEffect(() => {}, [content]);
+    return (
+        <View style={styles.inputContainer}>
+            <View style={styles.input}>
+                <TextInput
+                    placeholder="Type your bid..."
+                    keyboardType="numeric"
+                    onChangeText={(price) => {
+                        setContent(price);
+                    }}
+                    value={content}
+                />
+            </View>
+            <TouchableOpacity
+                onPress={() => {
+                    if (socket && socket.connected && content.length > 0) {
+                        socket.emit("bid", {
+                            buyerId: buyerId,
+                            auctionId: auctionId,
+                            price: +content,
+                        });
+                        setContent("");
+                        Keyboard.dismiss();
+                    }
+                }}>
+                <MaterialCommunityIcons
+                    name="gavel"
+                    color={"#FF5500"}
+                    size={37}
+                    style={styles.icon}
+                />
+            </TouchableOpacity>
+        </View>
+    );
+}
+
+const styles = StyleSheet.create({
+    inputContainer: {
+        flexDirection: "row",
+        marginBottom: scale(5),
+        marginHorizontal: scale(5),
+        alignItems: "center",
+        justifyContent: "center",
+        marginBottom: verticalScale(15),
+    },
+    input: {
+        borderTopWidth: scale(1),
+        backgroundColor: "#fff",
+        borderTopColor: "#ccc",
+        width: scale(150),
+        height: verticalScale(40),
+        borderRadius: scale(15),
+        padding: scale(10),
+    },
+    icon: {
+        alignSelf: "center",
+        marginLeft: scale(5),
+    },
+});
+
+}
+
+{ last
+
+    import React, { useEffect, useState } from "react";
+import { SafeAreaView, StyleSheet, Alert } from "react-native";
+import ProductImages from "../components/ProductImages";
+import ProductDesc from "../components/ProductDesc";
+import BiderBox from "../components/BiderBox";
+import { useSelector } from "react-redux";
+import axiosInstance from "../api/axiosConfig";
+import { io } from "socket.io-client";
+import SendBid from "../components/auction/SendBid";
+import * as Animatable from "react-native-animatable";
+import { ActivityIndicator } from "react-native";
+
+const AuctionRoom = ({ route, navigation }) => {
+    const data = route.params;
+    const { userId, token } = useSelector((state) => state.user);
+    const [socket, setSocket] = useState(null);
+    const [bids, setBid] = useState(null);
+
+    useEffect(() => {
+        const socket = io("wss://auction-online-iw6c.onrender.com/auction", {
+            query: {
+                token: token,
+                auctionId: data._id,
+            },
+        });
+        socket.on("connect", () => {
+            console.log("connect");
+        });
+        socket.on("bid", (bid) => {
+            setBid((prev) => [bid, ...prev]);
+        });
+        socket.on("disconnect", () => {
+            console.log(" disconnected");
+        });
+        socket.on("erorr", () => {
+            console.log(" erorr");
+        });
+        setSocket(socket);
+        return () => {
+            socket.disconnect();
+        };
+    }, []);
+    useEffect(() => {
+        (async () => {
+            try {
+                const response = await axiosInstance.get(
+                    `bids/auctions/${data._id}?limit=15&page=1`
+                );
+                if (!response.data.error) {
+                    setBid(response.data.data.bids);
+                } else {
+                    Alert.alert(response.data.error);
+                }
+            } catch (error) {
+                Alert.alert(error.message);
+            }
+        })();
+    }, []);
+    useEffect(() => {}, [bids]);
+    if (!bids) {
+        return (
+            <SafeAreaView
+                style={{
+                    flex: 1,
+                    justifyContent: "center",
+                    alignItems: "center",
+                }}>
+                <Animatable.View
+                    animation="rotate"
+                    iterationCount="infinite"
+                    duration={800}>
+                    <ActivityIndicator size="large" color="#FF5500" />
+                </Animatable.View>
+            </SafeAreaView>
+        );
+    }
+    return (
+        <SafeAreaView style={styles.container}>
+            <ProductImages
+                data={data}
+                style={styles.ProductImages}
+                handlePress={() => navigation.goBack()}
+            />
+            <ProductDesc data={data} />
+            <BiderBox bids={bids} />
+            {token && data.status === "running" && (
+                <SendBid
+                    socket={socket}
+                    buyerId={userId}
+                    auctionId={data._id}
+                />
+            )}
+        </SafeAreaView>
+    );
+};
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: "center",
+        alignContent: "center",
+    },
+    ProductImages: {},
+});
+
+export default AuctionRoom;
+
+
+}
+
+
 import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
 
 scale()
@@ -10,7 +209,7 @@ moderateScale()
   "createdAt": "2024-05-12T23:43:54.060Z",
   "endDate": "2024-05-31T00:41:00.000Z",
   "id": "664154396a594fe0449755c5",
-  "product": {"__v": 0, "_id": "664154396a594fe0449755c3", "description": "Fff", "images": [], "initialPrice": 88888, "maxPrice": 5555, "name": "Dffg", "quantity": 555},
+  "__v": 0, "_id": "664154396a594fe0449755c3", "description": "Fff", "images": [], "initialPrice": 88888, "maxPrice": 5555, "name": "Dffg", "quantity": 555,
   "seller": {"__v": 0, "_id": "663edcf6695ddbd4b9ca492e", "address": {"_id": "663edcf6695ddbd4b9ca492f", "city": "", "country": "", "houseNumber": "", "street": ""},
   "email": "user3@gm.com", "firstName": "Abdullah", "lastName": "Oun", "phone": "01098775035"}, 
   "startDate": "2024-05-13T00:41:48.723Z", "status": "running", "updatedAt": "2024-05-12T23:43:54.060Z"}

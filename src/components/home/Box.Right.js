@@ -8,7 +8,7 @@ export default function BoxRight({
     buttomRightPress,
     topRightPress,
 }) {
-    if (!up || !up.product) {
+    if (!up) {
         return (
             <View>
                 <Text> route is not exist:BoxRight</Text>
@@ -18,19 +18,16 @@ export default function BoxRight({
     return (
         <View>
             <TouchableOpacity onPress={topRightPress}>
-                <Image
-                    style={styles.imageOne}
-                    source={{ uri: up.product.images[0] }}
-                />
+                <Image style={styles.imageOne} source={{ uri: up.images[0] }} />
             </TouchableOpacity>
-            <Text style={styles.text}>{up.product.name}</Text>
+            <Text style={styles.text}>{up.name}</Text>
             <TouchableOpacity onPress={buttomRightPress}>
                 <Image
                     style={styles.imageOne}
-                    source={{ uri: down.product.images[0] }}
+                    source={{ uri: down.images[0] }}
                 />
             </TouchableOpacity>
-            <Text style={styles.text}>{down.product.name}</Text>
+            <Text style={styles.text}>{down.name}</Text>
         </View>
     );
 }

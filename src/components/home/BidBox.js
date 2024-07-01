@@ -9,11 +9,11 @@ export default function BidBox({ allData, handlePress }) {
             <Image
                 style={styles.productImageList}
                 source={{
-                    uri: allData.product.images[0],
+                    uri: allData.images[0],
                 }}
             />
             <Text style={{ fontSize: scale(14), paddingTop: scale(10) }}>
-                {allData.product.name}
+                {allData.name}
             </Text>
             <View>
                 <Text style={styles.text}>Starts in: {start}</Text>
